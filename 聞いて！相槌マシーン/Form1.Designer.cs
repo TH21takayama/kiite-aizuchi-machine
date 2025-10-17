@@ -74,7 +74,7 @@
             Time.Size = new Size(180, 31);
             Time.TabIndex = 3;
             Time.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            Time.ValueChanged += numericUpDown1_ValueChanged;
+            //Time.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // back
             // 
