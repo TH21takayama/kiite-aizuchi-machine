@@ -47,6 +47,7 @@ namespace 聞いて_相槌マシーン
             string selectedVoice = VoiceBox.Text.Trim();
             string selectedTone = ToneBox.Text.Trim();
 
+            // 空欄チェック（手入力対応）
             if (string.IsNullOrEmpty(selectedVoice) && string.IsNullOrEmpty(selectedTone))
             {
                 MessageBox.Show("声と会話スタイルを選んでください。");
