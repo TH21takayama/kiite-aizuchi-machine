@@ -71,5 +71,11 @@ namespace 聞いて_相槌マシーン
             this.Hide();
 
         }
+
+        private void button1_Click(object sender, EventArgs e)//リセットボタン
+        {
+            VoiceBox.SelectedIndex = -1;
+            ToneBox.SelectedIndex = -1;
+        }
     }
 }
