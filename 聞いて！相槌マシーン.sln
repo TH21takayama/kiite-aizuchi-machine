@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "聞いて！相槌マシーン", "聞いて！相槌マシーン\聞いて！相槌マシーン.csproj", "{A66A1793-A80E-4566-BF05-6E4DD88FDBCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A66A1793-A80E-4566-BF05-6E4DD88FDBCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A66A1793-A80E-4566-BF05-6E4DD88FDBCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A66A1793-A80E-4566-BF05-6E4DD88FDBCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A66A1793-A80E-4566-BF05-6E4DD88FDBCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {489D3AF6-49CE-4672-A4E6-471A35185CF5}
+	EndGlobalSection
+EndGlobal
