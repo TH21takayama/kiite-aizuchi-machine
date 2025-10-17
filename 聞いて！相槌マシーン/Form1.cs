@@ -121,6 +121,7 @@ namespace 聞いて_相槌マシーン
 
         private void back_Click(object sender, EventArgs e)
         {
+            isPlaying = false;
             voiceForm.Show();
             this.Hide();
         }
