@@ -54,8 +54,8 @@ namespace 聞いて_相槌マシーン
 
         public void MainForm_Load(object sender, EventArgs e)
         {
-            //テスト用　受け取ったやつを確認
-            //MessageBox.Show($"受け取った声：{SelectedVoice}\n受け取ったスタイル{SelectedTone}");
+            //受け取ったやつを確認
+            MessageBox.Show($"受け取った声：{SelectedVoice}\n受け取ったスタイル:{SelectedTone}"+"、でよろしいですか？");
 
             //受け取った値をラベルに表示
             VoiceLabel.Text = $"音声：{SelectedVoice}";
