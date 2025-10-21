@@ -121,7 +121,19 @@ namespace 聞いて_相槌マシーン
 
         private void back_Click(object sender, EventArgs e)
         {
+            // タイマーを止める
+            if (timer.Enabled)
+            {
+                timer.Stop();
+            }
+
+            // 音声を止める
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            player.Stop();
+
             isPlaying = false;
+            Start.Text = "開始"; // ボタンの表示も戻す
+            //isPlaying = false; 止まったり止まらなかったりしてる
             voiceForm.Show();
             this.Hide();
         }
