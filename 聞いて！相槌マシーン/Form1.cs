@@ -18,6 +18,9 @@ namespace 聞いて_相槌マシーン
 
         private Random random = new Random(); //ランダム再生用
 
+        private SoundPlayer player;
+
+
         //声とフォルダ名の対応表
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
@@ -50,6 +53,8 @@ namespace 聞いて_相槌マシーン
 
             //タイマーのTickイベントに処理を登録
             timer.Tick += Timer_Tick;
+
+            this.FormClosing += MainForm_FormClosing;
         }
 
         public void MainForm_Load(object sender, EventArgs e)
@@ -100,22 +105,22 @@ namespace 聞いて_相槌マシーン
 
         private void PlayRandomVoice()
         {
-            string baseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");//プロジェクト内の相槌フォルダ
+            string baseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
             string voiceFolderName = voiceFolderMap[SelectedVoice];
             string voiceFolder = Path.Combine(baseFolder, voiceFolderName);
             string styleFolder = Path.Combine(voiceFolder, SelectedTone);
 
-            //フォルダ内のwavファイルの取得
             string[] voiceFiles = Directory.GetFiles(styleFolder, "*.wav");
+            if (voiceFiles.Length == 0) return;
 
-            if (voiceFiles.Length == 0) return;//ファイルがなければ終了
-
-            //ランダムで1つ選ぶ
             int index = random.Next(voiceFiles.Length);
             string clipPath = voiceFiles[index];
 
-            //wavを再生
-            SoundPlayer player = new SoundPlayer(clipPath);
+            // 再生中の音声があれば止める
+            player?.Stop();
+
+            // 新しい音声を再生
+            player = new SoundPlayer(clipPath);
             player.Play();
         }
 
@@ -136,6 +141,12 @@ namespace 聞いて_相槌マシーン
             //isPlaying = false; 止まったり止まらなかったりしてる
             voiceForm.Show();
             this.Hide();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer.Stop();
+            player?.Stop();
         }
     }
 }
