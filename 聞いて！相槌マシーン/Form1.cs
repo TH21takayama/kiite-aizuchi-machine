@@ -140,12 +140,10 @@ namespace 聞いて_相槌マシーン
         private void PlayRandomVoice()
         {
             string baseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
-
             if (!voiceFolderMap.ContainsKey(SelectedVoice)) return;
 
             string voiceFolderName = voiceFolderMap[SelectedVoice];
             string styleFolder = Path.Combine(baseFolder, voiceFolderName, SelectedTone);
-
             if (!Directory.Exists(styleFolder)) return;
 
             string[] voiceFiles = Directory.GetFiles(styleFolder, "*.wav");
@@ -154,14 +152,18 @@ namespace 聞いて_相槌マシーン
             int index = random.Next(voiceFiles.Length);
             string clipPath = voiceFiles[index];
 
+            // 再生
             if (player != null)
             {
                 player.Stop();
                 player.Dispose();
             }
-
             player = new SoundPlayer(clipPath);
             player.Play();
+
+            // ✅ 字幕表示（ファイル名を使う）
+            string subtitle = Path.GetFileNameWithoutExtension(clipPath);
+            Invoke(new Action(() => jimaku.Text = subtitle));
         }
 
         private void back_Click(object sender, EventArgs e)
@@ -186,6 +188,11 @@ namespace 聞いて_相槌マシーン
             // ラベルを更新
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
+        }
+
+        private void jimaku_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

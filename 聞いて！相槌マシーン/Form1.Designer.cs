@@ -33,6 +33,7 @@
             back = new Button();
             VoiceLabel = new Label();
             ToneLabel = new Label();
+            jimaku = new Label();
             SuspendLayout();
             // 
             // Start
@@ -87,11 +88,22 @@
             ToneLabel.TabIndex = 6;
             ToneLabel.Text = "スタイル";
             // 
+            // jimaku
+            // 
+            jimaku.AutoSize = true;
+            jimaku.Location = new Point(10, 67);
+            jimaku.Name = "jimaku";
+            jimaku.Size = new Size(39, 20);
+            jimaku.TabIndex = 7;
+            jimaku.Text = "字幕";
+            jimaku.Click += jimaku_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(640, 360);
+            Controls.Add(jimaku);
             Controls.Add(ToneLabel);
             Controls.Add(VoiceLabel);
             Controls.Add(back);
@@ -113,5 +125,6 @@
         private Button back;
         private Label VoiceLabel;
         private Label ToneLabel;
+        private Label jimaku;
     }
 }
