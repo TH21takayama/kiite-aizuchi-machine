@@ -38,7 +38,7 @@
             // Start
             // 
             Start.Location = new Point(198, 146);
-            Start.Margin = new Padding(2, 2, 2, 2);
+            Start.Margin = new Padding(2);
             Start.Name = "Start";
             Start.Size = new Size(224, 103);
             Start.TabIndex = 0;
@@ -59,7 +59,7 @@
             // back
             // 
             back.Location = new Point(10, 323);
-            back.Margin = new Padding(2, 2, 2, 2);
+            back.Margin = new Padding(2);
             back.Name = "back";
             back.Size = new Size(90, 27);
             back.TabIndex = 4;
@@ -97,7 +97,7 @@
             Controls.Add(back);
             Controls.Add(license);
             Controls.Add(Start);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "MainForm";
             Text = "メイン";
             ResumeLayout(false);
