@@ -16,17 +16,13 @@ namespace 聞いて_相槌マシーン
         {
             InitializeComponent();
 
-            // コンボボックスを手入力可能に設定
-            VoiceBox.DropDownStyle = ComboBoxStyle.DropDown;
-            ToneBox.DropDownStyle = ComboBoxStyle.DropDown;
+            //声
+            VoiceBox.Items.Add("女性A"); //母
+            VoiceBox.Items.Add("女性B"); //高山
+            VoiceBox.Items.Add("男性A"); //倉橋
+            VoiceBox.Items.Add("男性B"); //中谷
 
-            // 声の選択肢
-            VoiceBox.Items.Add("女性A"); // 母
-            VoiceBox.Items.Add("女性B"); // 高山
-            VoiceBox.Items.Add("男性A"); // 倉橋
-            VoiceBox.Items.Add("男性B"); // 中谷
-
-            // 会話スタイルの選択肢
+            //会話スタイル
             ToneBox.Items.Add("愚痴");
             ToneBox.Items.Add("自慢");
             ToneBox.Items.Add("汎用");
@@ -34,20 +30,19 @@ namespace 聞いて_相槌マシーン
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // 未使用なら削除してもOK
+
         }
 
         private void VoiceBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // 未使用なら削除してもOK
+
         }
 
         private void Next_Click(object sender, EventArgs e)
         {
-            string selectedVoice = VoiceBox.Text.Trim();
-            string selectedTone = ToneBox.Text.Trim();
+            string selectedVoice = VoiceBox.SelectedItem?.ToString();
+            string selectedTone = ToneBox.SelectedItem?.ToString();
 
-            // 空欄チェック（手入力対応）
             if (string.IsNullOrEmpty(selectedVoice) && string.IsNullOrEmpty(selectedTone))
             {
                 MessageBox.Show("声と会話スタイルを選んでください。");
@@ -64,22 +59,23 @@ namespace 聞いて_相槌マシーン
                 return;
             }
 
-            // MainFormのインスタンスを作成
+            //MainFormのインスタンスを作成
             MainForm mainForm = new MainForm(this);
 
-            // プロパティに値をセット
+            //プロパティに値をセット
             mainForm.SelectedVoice = selectedVoice;
             mainForm.SelectedTone = selectedTone;
 
-            // MainFormを表示してVoiceFormは非表示
+            //MainFormを表示してVoiceFormは非表示
             mainForm.Show();
             this.Hide();
+
         }
 
-        private void button1_Click(object sender, EventArgs e) // リセットボタン
+        private void button1_Click(object sender, EventArgs e)//リセットボタン
         {
-            VoiceBox.Text = "";
-            ToneBox.Text = "";
+            VoiceBox.SelectedIndex = -1;
+            ToneBox.SelectedIndex = -1;
         }
     }
 }
