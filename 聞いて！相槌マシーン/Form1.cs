@@ -22,6 +22,7 @@ namespace 聞いて_相槌マシーン
         private System.Timers.Timer silenceCheckTimer;
         private System.Timers.Timer responseDelayTimer;
 
+
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
             {"女性A","相槌_母"},
@@ -36,6 +37,7 @@ namespace 聞いて_相槌マシーン
             this.Load += MainForm_Load;
             this.FormClosing += MainForm_FormClosing;
             voiceForm = vf;
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -140,10 +142,12 @@ namespace 聞いて_相槌マシーン
         private void PlayRandomVoice()
         {
             string baseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
+
             if (!voiceFolderMap.ContainsKey(SelectedVoice)) return;
 
             string voiceFolderName = voiceFolderMap[SelectedVoice];
             string styleFolder = Path.Combine(baseFolder, voiceFolderName, SelectedTone);
+
 
             if (!Directory.Exists(styleFolder)) return;
 
@@ -165,14 +169,18 @@ namespace 聞いて_相槌マシーン
 
         private void back_Click(object sender, EventArgs e)
         {
+
             StopListening();
+
             voiceForm.Show();
             this.Hide();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+
             StopListening();
+
         }
     }
 }
