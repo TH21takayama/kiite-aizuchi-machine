@@ -47,20 +47,29 @@ namespace 聞いて_相槌マシーン
             string selectedVoice = VoiceBox.Text.Trim();
             string selectedTone = ToneBox.Text.Trim();
 
-            // 空欄チェック（手入力対応）
-            if (string.IsNullOrEmpty(selectedVoice) && string.IsNullOrEmpty(selectedTone))
-            {
-                MessageBox.Show("声と会話スタイルを選んでください。");
-                return;
-            }
-            else if (string.IsNullOrEmpty(selectedVoice))
+            // 声の入力チェック
+            if (string.IsNullOrEmpty(selectedVoice))
             {
                 MessageBox.Show("声を選んでください。");
                 return;
             }
-            else if (string.IsNullOrEmpty(selectedTone))
+            // 声がリストに存在するか確認
+            if (!VoiceBox.Items.Contains(selectedVoice))
+            {
+                MessageBox.Show("存在しない声が入力されています。");
+                return;
+            }
+
+            // 会話スタイルの入力チェック
+            if (string.IsNullOrEmpty(selectedTone))
             {
                 MessageBox.Show("会話スタイルを選んでください。");
+                return;
+            }
+            // スタイルがリストに存在するか確認
+            if (!ToneBox.Items.Contains(selectedTone))
+            {
+                MessageBox.Show("存在しない会話スタイルが入力されています。");
                 return;
             }
 
@@ -75,6 +84,7 @@ namespace 聞いて_相槌マシーン
             mainForm.Show();
             this.Hide();
         }
+
 
         private void button1_Click(object sender, EventArgs e) // リセットボタン
         {
