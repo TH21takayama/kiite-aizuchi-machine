@@ -33,7 +33,6 @@
             back = new Button();
             VoiceLabel = new Label();
             ToneLabel = new Label();
-            reset = new Button();
             SuspendLayout();
             // 
             // Start
@@ -88,22 +87,11 @@
             ToneLabel.TabIndex = 6;
             ToneLabel.Text = "スタイル";
             // 
-            // reset
-            // 
-            reset.Location = new Point(534, 323);
-            reset.Name = "reset";
-            reset.Size = new Size(94, 29);
-            reset.TabIndex = 7;
-            reset.Text = "リセット";
-            reset.UseVisualStyleBackColor = true;
-            reset.Click += reset_Click;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(640, 360);
-            Controls.Add(reset);
             Controls.Add(ToneLabel);
             Controls.Add(VoiceLabel);
             Controls.Add(back);
@@ -125,6 +113,5 @@
         private Button back;
         private Label VoiceLabel;
         private Label ToneLabel;
-        private Button reset;
     }
 }
