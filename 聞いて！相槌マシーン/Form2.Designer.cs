@@ -33,6 +33,7 @@
             license = new Label();
             ToneBox = new ComboBox();
             reset = new Button();
+            button1 = new Button();
             SuspendLayout();
             // 
             // VoiceBox
@@ -44,7 +45,6 @@
             VoiceBox.Size = new Size(354, 28);
             VoiceBox.TabIndex = 0;
             VoiceBox.Text = "声を選んでね";
-            //VoiceBox.SelectedIndexChanged += VoiceBox_SelectedIndexChanged;
             // 
             // Next
             // 
@@ -76,7 +76,6 @@
             ToneBox.Size = new Size(354, 28);
             ToneBox.TabIndex = 3;
             ToneBox.Text = "会話スタイルをえらんでね";
-            //ToneBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // reset
             // 
@@ -88,11 +87,22 @@
             reset.UseVisualStyleBackColor = true;
             reset.Click += button1_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(12, 310);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 5;
+            button1.Text = "戻る";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
+            // 
             // VoiceForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(640, 360);
+            Controls.Add(button1);
             Controls.Add(reset);
             Controls.Add(ToneBox);
             Controls.Add(license);
@@ -112,5 +122,6 @@
         private Label license;
         private ComboBox ToneBox;
         private Button reset;
+        private Button button1;
     }
 }
