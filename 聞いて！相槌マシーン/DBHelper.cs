@@ -1,57 +1,78 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 
-public static class DBHelper
+namespace 聞いて_相槌マシーン
 {
-    private static string dbPath = "Data Source=users.db";
-
-    // DB初期化（ユーザー情報テーブル作成）
-    public static void Initialize()
+    public static class DBHelper
     {
-        using (var con = new SQLiteConnection(dbPath))
-        {
-            con.Open();
-            string sql = @"CREATE TABLE IF NOT EXISTS Users (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            Username TEXT UNIQUE,
-                            Password TEXT
-                           );";
-            SQLiteCommand cmd = new SQLiteCommand(sql, con);
-            cmd.ExecuteNonQuery();
-        }
-    }
+        private static string dbPath = "相槌DB.sqlite";
+        private static string connectionString = $"Data Source={dbPath};Version=3;";
 
-    public static bool RegisterUser(string username, string password)
-    {
-        try
+        // 初期化（DBとテーブル作成）
+        public static void Initialize()
         {
-            using (var con = new SQLiteConnection(dbPath))
+            if (!System.IO.File.Exists(dbPath))
             {
-                con.Open();
-                string sql = "INSERT INTO Users (Username, Password) VALUES (@u,@p)";
-                SQLiteCommand cmd = new SQLiteCommand(sql, con);
-                cmd.Parameters.AddWithValue("@u", username);
-                cmd.Parameters.AddWithValue("@p", password); // 簡易保存。後でハッシュ化も可能
-                cmd.ExecuteNonQuery();
-                return true;
+                SQLiteConnection.CreateFile(dbPath);
+            }
+
+            using (var conn = new SQLiteConnection(connectionString))
+            {
+                conn.Open();
+                string createTableQuery = @"
+                    CREATE TABLE IF NOT EXISTS Users (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Username TEXT UNIQUE NOT NULL,
+                        Password TEXT NOT NULL
+                    );";
+                using (var cmd = new SQLiteCommand(createTableQuery, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
-        catch
-        {
-            return false;
-        }
-    }
 
-    public static bool AuthenticateUser(string username, string password)
-    {
-        using (var con = new SQLiteConnection(dbPath))
+        // ユーザー認証
+        public static bool AuthenticateUser(string username, string password)
         {
-            con.Open();
-            string sql = "SELECT COUNT(*) FROM Users WHERE Username=@u AND Password=@p";
-            SQLiteCommand cmd = new SQLiteCommand(sql, con);
-            cmd.Parameters.AddWithValue("@u", username);
-            cmd.Parameters.AddWithValue("@p", password);
-            long count = (long)cmd.ExecuteScalar();
-            return count > 0;
+            using (var conn = new SQLiteConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT COUNT(*) FROM Users WHERE Username=@user AND Password=@pass";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@user", username);
+                    cmd.Parameters.AddWithValue("@pass", password);
+                    long count = (long)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+
+        // ユーザー登録
+        public static bool RegisterUser(string username, string password)
+        {
+            using (var conn = new SQLiteConnection(connectionString))
+            {
+                conn.Open();
+                string query = "INSERT INTO Users (Username, Password) VALUES (@user, @pass)";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@user", username);
+                    cmd.Parameters.AddWithValue("@pass", password);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (SQLiteException ex)
+                    {
+                        // ユーザー名重複など
+                        Console.WriteLine(ex.Message);
+                        return false;
+                    }
+                }
+            }
         }
     }
 }

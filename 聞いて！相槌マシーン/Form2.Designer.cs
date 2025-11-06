@@ -44,7 +44,7 @@
             VoiceBox.Size = new Size(354, 28);
             VoiceBox.TabIndex = 0;
             VoiceBox.Text = "声を選んでね";
-            VoiceBox.SelectedIndexChanged += VoiceBox_SelectedIndexChanged;
+            //VoiceBox.SelectedIndexChanged += VoiceBox_SelectedIndexChanged;
             // 
             // Next
             // 
@@ -76,7 +76,7 @@
             ToneBox.Size = new Size(354, 28);
             ToneBox.TabIndex = 3;
             ToneBox.Text = "会話スタイルをえらんでね";
-            ToneBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            //ToneBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // reset
             // 

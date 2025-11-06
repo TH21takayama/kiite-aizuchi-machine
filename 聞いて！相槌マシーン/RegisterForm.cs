@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 聞いて_相槌マシーン
@@ -19,33 +12,40 @@ namespace 聞いて_相槌マシーン
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            string user = txtUsername.Text;
-            string pass = txtPassword.Text;
-            string confirm = txtConfirmPassword.Text;
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
 
-            if (pass != confirm)
+            // 入力チェック
+            if (string.IsNullOrEmpty(username))
             {
-                MessageBox.Show("パスワードが一致しません。");
+                MessageBox.Show("ユーザー名を入力してください。");
+                return;
+            }
+            if (string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("パスワードを入力してください。");
                 return;
             }
 
-            if (DBHelper.RegisterUser(user, pass))
+            // 登録処理
+            bool success = DBHelper.RegisterUser(username, password);
+            if (success)
             {
-                MessageBox.Show("登録完了ログインしてください。");
-                LoginForm lf = new LoginForm();
-                lf.Show();
+                MessageBox.Show("登録が完了しました。ログインしてください。");
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
                 this.Hide();
             }
             else
             {
-                MessageBox.Show("登録に失敗しました。ユーザー名が重複している可能性があります。");
+                MessageBox.Show("登録に失敗しました。ユーザー名が既に存在する可能性があります。");
             }
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            LoginForm lf = new LoginForm();
-            lf.Show();
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
             this.Hide();
         }
     }
