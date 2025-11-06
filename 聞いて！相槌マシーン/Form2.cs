@@ -54,14 +54,22 @@ namespace 聞いて_相槌マシーン
                 return;
             }
 
-            // MainFormのインスタンスを作成
+            // ★ 確認メッセージを追加（シンプル表示）★
+            string message = $"声: {selectedVoice}\n会話スタイル: {selectedTone}\n\nこれでよろしいですか？";
+            DialogResult result = MessageBox.Show(
+                message,
+                "",  // タイトルを空にしてスッキリ
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.None  // アイコン非表示でシンプルに
+            );
+
+            // 「はい」の場合だけ MainForm に遷移
             MainForm mainForm = new MainForm(this)
             {
                 SelectedVoice = selectedVoice,
                 SelectedTone = selectedTone
             };
 
-            // MainFormを表示してVoiceFormは非表示
             mainForm.Show();
             this.Hide();
         }
