@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 聞いて_相槌マシーン
@@ -32,16 +25,6 @@ namespace 聞いて_相槌マシーン
             ToneBox.Items.Add("汎用");
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // 未使用なら削除してもOK
-        }
-
-        private void VoiceBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // 未使用なら削除してもOK
-        }
-
         private void Next_Click(object sender, EventArgs e)
         {
             string selectedVoice = VoiceBox.Text.Trim();
@@ -53,7 +36,6 @@ namespace 聞いて_相槌マシーン
                 MessageBox.Show("声を選んでください。");
                 return;
             }
-            // 声がリストに存在するか確認
             if (!VoiceBox.Items.Contains(selectedVoice))
             {
                 MessageBox.Show("存在しない声が入力されています。");
@@ -66,7 +48,6 @@ namespace 聞いて_相槌マシーン
                 MessageBox.Show("会話スタイルを選んでください。");
                 return;
             }
-            // スタイルがリストに存在するか確認
             if (!ToneBox.Items.Contains(selectedTone))
             {
                 MessageBox.Show("存在しない会話スタイルが入力されています。");
@@ -74,17 +55,16 @@ namespace 聞いて_相槌マシーン
             }
 
             // MainFormのインスタンスを作成
-            MainForm mainForm = new MainForm(this);
-
-            // プロパティに値をセット
-            mainForm.SelectedVoice = selectedVoice;
-            mainForm.SelectedTone = selectedTone;
+            MainForm mainForm = new MainForm(this)
+            {
+                SelectedVoice = selectedVoice,
+                SelectedTone = selectedTone
+            };
 
             // MainFormを表示してVoiceFormは非表示
             mainForm.Show();
             this.Hide();
         }
-
 
         private void button1_Click(object sender, EventArgs e) // リセットボタン
         {

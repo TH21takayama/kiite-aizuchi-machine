@@ -22,6 +22,7 @@ namespace 聞いて_相槌マシーン
         private System.Timers.Timer silenceCheckTimer;
         private System.Timers.Timer responseDelayTimer;
 
+        // 声の選択肢とフォルダ対応
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
             {"女性A","相槌_母"},
@@ -50,6 +51,7 @@ namespace 聞いて_相槌マシーン
 
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
+            jimaku.Text = ""; // 字幕初期化
         }
 
         private void Start_Click(object sender, EventArgs e)
@@ -178,21 +180,19 @@ namespace 聞いて_相槌マシーン
             StopListening();
         }
 
-        // ✅ リセットボタンの処理
         private void reset_Click(object sender, EventArgs e)
         {
-            // 初期値に戻す
             SelectedVoice = "声を選んでね";
             SelectedTone = "会話スタイルを選んでね";
 
-            // ラベルを更新
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
+            jimaku.Text = "";
         }
 
         private void jimaku_Click(object sender, EventArgs e)
         {
-
+            // 必要なら字幕クリック時の処理
         }
     }
 }
