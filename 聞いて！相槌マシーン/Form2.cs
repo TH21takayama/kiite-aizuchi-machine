@@ -79,5 +79,13 @@ namespace 聞いて_相槌マシーン
             VoiceBox.Text = "";
             ToneBox.Text = "";
         }
+
+        private void button1_Click_1(object sender, EventArgs e) // 戻るボタン
+        {
+            // ログイン画面に戻る処理
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
+            this.Close(); // 現在のフォームを閉じる
+        }
     }
 }
