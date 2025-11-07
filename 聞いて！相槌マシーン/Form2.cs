@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 
 namespace 聞いて_相槌マシーン
+    //声と会話スタイルの選択画面
 {
     public partial class VoiceForm : Form
     {

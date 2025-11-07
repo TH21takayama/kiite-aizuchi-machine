@@ -8,6 +8,7 @@ using System.Timers;
 
 namespace 聞いて_相槌マシーン
 {
+    //音声再生画面
     public partial class MainForm : Form
     {
         public string SelectedVoice { get; set; }
