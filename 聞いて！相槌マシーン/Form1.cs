@@ -22,6 +22,8 @@ namespace 聞いて_相槌マシーン
         private System.Timers.Timer silenceCheckTimer;
         private System.Timers.Timer responseDelayTimer;
 
+        private bool isJimakuOn = true; // ✅ 字幕表示状態（初期値ON）
+
         // 声の選択肢とフォルダ対応
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
@@ -52,6 +54,7 @@ namespace 聞いて_相槌マシーン
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             jimaku.Text = ""; // 字幕初期化
+            JimakuSwitch.Text = "字幕OFF"; // ✅ 初期表示
         }
 
         private void Start_Click(object sender, EventArgs e)
@@ -163,9 +166,16 @@ namespace 聞いて_相槌マシーン
             player = new SoundPlayer(clipPath);
             player.Play();
 
-            // ✅ 字幕表示（ファイル名を使う）
-            string subtitle = Path.GetFileNameWithoutExtension(clipPath);
-            Invoke(new Action(() => jimaku.Text = subtitle));
+            // ✅ 字幕表示（ONのときのみ）
+            if (isJimakuOn)
+            {
+                string subtitle = Path.GetFileNameWithoutExtension(clipPath);
+                Invoke(new Action(() => jimaku.Text = subtitle));
+            }
+            else
+            {
+                Invoke(new Action(() => jimaku.Text = ""));
+            }
         }
 
         private void back_Click(object sender, EventArgs e)
@@ -190,9 +200,15 @@ namespace 聞いて_相槌マシーン
             jimaku.Text = "";
         }
 
-        private void jimaku_Click(object sender, EventArgs e)
+        // ✅ 字幕ON/OFF切り替え
+        private void JimakuSwitch_Click(object sender, EventArgs e)
         {
-            // 必要なら字幕クリック時の処理
+            isJimakuOn = !isJimakuOn;
+            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
+            if (!isJimakuOn)
+            {
+                jimaku.Text = ""; // OFFにしたら字幕消す
+            }
         }
     }
 }
