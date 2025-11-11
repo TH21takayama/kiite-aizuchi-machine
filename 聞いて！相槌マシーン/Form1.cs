@@ -215,5 +215,10 @@ namespace 聞いて_相槌マシーン
                 jimaku.Text = ""; // OFFにしたら字幕消す
             }
         }
+
+        private void MainForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

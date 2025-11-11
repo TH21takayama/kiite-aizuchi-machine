@@ -30,6 +30,28 @@ namespace 聞いて_相槌マシーン
                     cmd.ExecuteNonQuery();
                 }
             }
+            // ✅ 設定テーブル作成
+            InitializeSettingsTable();
+        }
+
+        // ✅ UserSettingsテーブル作成
+        public static void InitializeSettingsTable()
+        {
+            using (var conn = new SQLiteConnection(connectionString))
+            { 
+                conn.Open();
+                string createTableQuery = @"
+                    CREATE TABLE IF NOT EXISTS UserSettings (
+                        UserId INTEGER PRIMARY KEY,
+                        LastVoice TEXT,
+                        LastTone TEXT,
+                        FOREIGN KEY(UserId) REFERENCES Users(Id)
+                    );";
+                using (var cmd = new SQLiteCommand(createTableQuery, conn))
+                { 
+                    cmd.ExecuteNonQuery(); 
+                }
+            }
         }
 
         // ユーザー認証
@@ -73,6 +95,69 @@ namespace 聞いて_相槌マシーン
                     }
                 }
             }
+        }
+
+        // ✅ 設定保存
+        public static void SaveUserSettings(string username, string voice, string tone)
+        {
+            using (var conn = new SQLiteConnection(connectionString))
+            {
+                conn.Open();
+
+                string getUserId = "SELECT Id FROM Users WHERE Username=@user";
+                long userId;
+                using (var cmd = new SQLiteCommand(getUserId, conn))
+                {
+                    cmd.Parameters.AddWithValue("@user", username);
+                    userId = (long)cmd.ExecuteScalar();
+                }
+
+                string query = @"
+                    INSERT INTO UserSettings(UserId, LastVoice, LastTone)
+                    VALUES(@id, @voice, @tone)
+                    ON CONFLICT(UserId) DO UPDATE SET LastVoice=@voice, LastTone=@tone;";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", userId);
+                    cmd.Parameters.AddWithValue("@voice", voice);
+                    cmd.Parameters.AddWithValue("@tone", tone);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+         // ✅ 設定読み込み
+        public static (string Voice, string Tone) LoadUserSettings(string username)
+        {
+            using (var conn = new SQLiteConnection(connectionString))
+            {
+                conn.Open();
+
+                string getUserId = "SELECT Id FROM Users WHERE Username=@user";
+                long userId;
+                using (var cmd = new SQLiteCommand(getUserId, conn))
+                {
+                    cmd.Parameters.AddWithValue("@user", username);
+                    var result = cmd.ExecuteScalar();
+                    if (result == null) return (null, null);
+                    userId = (long)result;
+                }
+
+                string query = "SELECT LastVoice, LastTone FROM UserSettings WHERE UserId=@id";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", userId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string voice = reader["LastVoice"] as string;
+                            string tone = reader["LastTone"] as string;
+                            return (voice, tone);
+                        }
+                    }
+                }
+            }
+            return (null, null);
         }
     }
 }
