@@ -194,5 +194,10 @@ namespace 聞いて_相槌マシーン
         {
             // 必要なら字幕クリック時の処理
         }
+
+        private void MainForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

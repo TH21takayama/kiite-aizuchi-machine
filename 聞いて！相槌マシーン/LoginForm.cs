@@ -35,7 +35,7 @@ namespace 聞いて_相槌マシーン
 
             if (DBHelper.AuthenticateUser(user, pass))
             {
-                VoiceForm vf = new VoiceForm();
+                VoiceForm vf = new VoiceForm(user);
                 vf.Show();
                 this.Hide();
             }
@@ -51,6 +51,11 @@ namespace 聞いて_相槌マシーン
             RegisterForm rf = new RegisterForm();
             rf.Show();
             this.Hide();
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

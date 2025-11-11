@@ -1,13 +1,18 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace 聞いて_相槌マシーン
 {
     public partial class VoiceForm : Form
     {
-        public VoiceForm()
+        private string username; // ログインしたユーザー名を保持
+        public VoiceForm(string user)
         {
             InitializeComponent();
+
+            username = user;
 
             // コンボボックスを手入力可能に設定
             VoiceBox.DropDownStyle = ComboBoxStyle.DropDown;
@@ -23,6 +28,31 @@ namespace 聞いて_相槌マシーン
             ToneBox.Items.Add("愚痴");
             ToneBox.Items.Add("自慢");
             ToneBox.Items.Add("汎用");
+
+            // ✅ 前回設定を反映
+            LoadPreviousSettings();
+        }
+        private void LoadPreviousSettings()
+        {
+            var (voice, tone) = DBHelper.LoadUserSettings(username);
+
+            if (!string.IsNullOrEmpty(voice) && VoiceBox.Items.Contains(voice))
+            {
+                VoiceBox.Text = voice;
+            }
+            else
+            {
+                VoiceBox.Text = "声を選んでね";
+            }
+
+            if (!string.IsNullOrEmpty(tone) && ToneBox.Items.Contains(tone))
+            {
+                ToneBox.Text = tone;
+            }
+            else
+            {
+                ToneBox.Text = "会話スタイルをえらんでね";
+            }
         }
 
         private void Next_Click(object sender, EventArgs e)
@@ -63,21 +93,31 @@ namespace 聞いて_相槌マシーン
                 MessageBoxIcon.None  // アイコン非表示でシンプルに
             );
 
-            // 「はい」の場合だけ MainForm に遷移
-            MainForm mainForm = new MainForm(this)
+            if (result == DialogResult.Yes)
             {
-                SelectedVoice = selectedVoice,
-                SelectedTone = selectedTone
-            };
+                // DBに保存
+                DBHelper.SaveUserSettings(username, selectedVoice, selectedTone);
 
-            mainForm.Show();
-            this.Hide();
+                // MainFormに遷移
+                MainForm mainForm = new MainForm(this)
+                {
+                    SelectedVoice = selectedVoice,
+                    SelectedTone = selectedTone
+                };
+                mainForm.Show();
+                this.Hide();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e) // リセットボタン
         {
             VoiceBox.Text = "";
             ToneBox.Text = "";
+        }
+
+        private void VoiceForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

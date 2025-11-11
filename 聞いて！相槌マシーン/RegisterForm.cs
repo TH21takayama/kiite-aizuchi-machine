@@ -48,5 +48,10 @@ namespace 聞いて_相槌マシーン
             loginForm.Show();
             this.Hide();
         }
+
+        private void RegisterForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
