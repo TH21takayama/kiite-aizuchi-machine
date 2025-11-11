@@ -40,19 +40,19 @@
             // VoiceBox
             // 
             VoiceBox.FormattingEnabled = true;
-            VoiceBox.Location = new Point(175, 102);
+            VoiceBox.Location = new Point(140, 82);
             VoiceBox.Margin = new Padding(2);
             VoiceBox.Name = "VoiceBox";
-            VoiceBox.Size = new Size(442, 33);
+            VoiceBox.Size = new Size(354, 28);
             VoiceBox.TabIndex = 0;
             VoiceBox.Text = "声を選んでね";
             // 
             // Next
             // 
-            Next.Location = new Point(294, 308);
+            Next.Location = new Point(235, 246);
             Next.Margin = new Padding(2);
             Next.Name = "Next";
-            Next.Size = new Size(188, 62);
+            Next.Size = new Size(150, 50);
             Next.TabIndex = 1;
             Next.Text = "決定";
             Next.UseVisualStyleBackColor = true;
@@ -61,29 +61,28 @@
             // license
             // 
             license.AutoSize = true;
-            license.Location = new Point(12, 9);
+            license.Location = new Point(10, 7);
             license.Margin = new Padding(2, 0, 2, 0);
             license.Name = "license";
-            license.Size = new Size(268, 25);
+            license.Size = new Size(220, 20);
             license.TabIndex = 2;
             license.Text = "Voiced by https://CoeFont.cloud";
             // 
             // ToneBox
             // 
             ToneBox.FormattingEnabled = true;
-            ToneBox.Location = new Point(179, 208);
+            ToneBox.Location = new Point(143, 166);
             ToneBox.Margin = new Padding(2);
             ToneBox.Name = "ToneBox";
-            ToneBox.Size = new Size(442, 33);
+            ToneBox.Size = new Size(354, 28);
             ToneBox.TabIndex = 3;
             ToneBox.Text = "会話スタイルをえらんでね";
             // 
             // reset
             // 
-            reset.Location = new Point(656, 388);
-            reset.Margin = new Padding(4, 4, 4, 4);
+            reset.Location = new Point(525, 310);
             reset.Name = "reset";
-            reset.Size = new Size(118, 36);
+            reset.Size = new Size(94, 29);
             reset.TabIndex = 4;
             reset.Text = "リセット";
             reset.UseVisualStyleBackColor = true;
@@ -110,9 +109,11 @@
             // 
             // VoiceForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(640, 360);
+            Controls.Add(UserLabel);
+            Controls.Add(button1);
             Controls.Add(reset);
             Controls.Add(ToneBox);
             Controls.Add(license);
@@ -121,7 +122,6 @@
             Margin = new Padding(2);
             Name = "VoiceForm";
             Text = "選択";
-            Load += VoiceForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

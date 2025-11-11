@@ -40,10 +40,10 @@
             // 
             // Start
             // 
-            Start.Location = new Point(248, 182);
+            Start.Location = new Point(198, 146);
             Start.Margin = new Padding(2);
             Start.Name = "Start";
-            Start.Size = new Size(280, 129);
+            Start.Size = new Size(224, 103);
             Start.TabIndex = 0;
             Start.Text = "開始";
             Start.UseVisualStyleBackColor = true;
@@ -52,19 +52,19 @@
             // license
             // 
             license.AutoSize = true;
-            license.Location = new Point(12, 9);
+            license.Location = new Point(10, 7);
             license.Margin = new Padding(2, 0, 2, 0);
             license.Name = "license";
-            license.Size = new Size(268, 25);
+            license.Size = new Size(220, 20);
             license.TabIndex = 1;
             license.Text = "Voiced by https://CoeFont.cloud";
             // 
             // back
             // 
-            back.Location = new Point(12, 404);
+            back.Location = new Point(10, 323);
             back.Margin = new Padding(2);
             back.Name = "back";
-            back.Size = new Size(112, 34);
+            back.Size = new Size(90, 27);
             back.TabIndex = 4;
             back.Text = "戻る";
             back.UseVisualStyleBackColor = true;
@@ -73,31 +73,29 @@
             // VoiceLabel
             // 
             VoiceLabel.AutoSize = true;
-            VoiceLabel.Location = new Point(12, 34);
+            VoiceLabel.Location = new Point(10, 51);
             VoiceLabel.Margin = new Padding(2, 0, 2, 0);
             VoiceLabel.Name = "VoiceLabel";
-            VoiceLabel.Size = new Size(48, 25);
+            VoiceLabel.Size = new Size(39, 20);
             VoiceLabel.TabIndex = 5;
             VoiceLabel.Text = "音声";
             // 
             // ToneLabel
             // 
             ToneLabel.AutoSize = true;
-
-            ToneLabel.Location = new Point(12, 59);
+            ToneLabel.Location = new Point(10, 71);
             ToneLabel.Margin = new Padding(2, 0, 2, 0);
             ToneLabel.Name = "ToneLabel";
-            ToneLabel.Size = new Size(68, 25);
+            ToneLabel.Size = new Size(54, 20);
             ToneLabel.TabIndex = 6;
             ToneLabel.Text = "スタイル";
             // 
             // jimaku
             // 
             jimaku.AutoSize = true;
-            jimaku.Location = new Point(12, 84);
-            jimaku.Margin = new Padding(4, 0, 4, 0);
+            jimaku.Location = new Point(10, 91);
             jimaku.Name = "jimaku";
-            jimaku.Size = new Size(48, 25);
+            jimaku.Size = new Size(39, 20);
             jimaku.TabIndex = 7;
             jimaku.Text = "字幕";
             // 
@@ -122,9 +120,11 @@
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(640, 360);
+            Controls.Add(UserLabel);
+            Controls.Add(JimakuSwitch);
             Controls.Add(jimaku);
             Controls.Add(ToneLabel);
             Controls.Add(VoiceLabel);
@@ -134,7 +134,6 @@
             Margin = new Padding(2);
             Name = "MainForm";
             Text = "メイン";
-            Load += MainForm_Load_1;
             ResumeLayout(false);
             PerformLayout();
         }
