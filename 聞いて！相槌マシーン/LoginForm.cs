@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 聞いて_相槌マシーン
@@ -42,7 +35,8 @@ namespace 聞いて_相槌マシーン
 
             if (DBHelper.AuthenticateUser(user, pass))
             {
-                VoiceForm vf = new VoiceForm();
+                // ✅ ユーザー名をVoiceFormに渡す
+                VoiceForm vf = new VoiceForm(user);
                 vf.Show();
                 this.Hide();
             }

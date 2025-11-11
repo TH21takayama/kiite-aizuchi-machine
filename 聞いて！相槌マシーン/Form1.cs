@@ -8,13 +8,14 @@ using System.Timers;
 
 namespace 聞いて_相槌マシーン
 {
-    //音声再生画面
+    // 音声再生画面
     public partial class MainForm : Form
     {
         public string SelectedVoice { get; set; }
         public string SelectedTone { get; set; }
 
         private VoiceForm voiceForm;
+        private string currentUser; // ✅ ログインユーザー名を保持
         private SoundPlayer player = null;
         private Random random = new Random();
 
@@ -34,12 +35,14 @@ namespace 聞いて_相槌マシーン
             {"男性B","相槌_中谷"}
         };
 
-        public MainForm(VoiceForm vf)
+        // ✅ コンストラクタでユーザー名を受け取る
+        public MainForm(VoiceForm vf, string username)
         {
             InitializeComponent();
             this.Load += MainForm_Load;
             this.FormClosing += MainForm_FormClosing;
             voiceForm = vf;
+            currentUser = username; // ✅ ユーザー名を保持
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -54,6 +57,7 @@ namespace 聞いて_相槌マシーン
 
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
+            UserLabel.Text = $"ユーザー：{currentUser}"; // ✅ ユーザー名を表示
             jimaku.Text = ""; // 字幕初期化
             JimakuSwitch.Text = "字幕OFF"; // ✅ 初期表示
         }
