@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 聞いて_相槌マシーン
@@ -16,16 +9,23 @@ namespace 聞いて_相槌マシーン
         {
             InitializeComponent();
             DBHelper.Initialize();
+            btnLogin.Enabled = false; // 初期状態は無効
         }
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
-
+            UpdateLoginButtonState();
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
+            UpdateLoginButtonState();
+        }
 
+        private void UpdateLoginButtonState()
+        {
+            // ユーザー名とパスワードが空でない場合のみログインボタンを有効化
+            btnLogin.Enabled = !string.IsNullOrEmpty(txtUsername.Text) && !string.IsNullOrEmpty(txtPassword.Text);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -35,6 +35,7 @@ namespace 聞いて_相槌マシーン
 
             if (DBHelper.AuthenticateUser(user, pass))
             {
+                // ✅ ユーザー名をVoiceFormに渡す
                 VoiceForm vf = new VoiceForm(user);
                 vf.Show();
                 this.Hide();
@@ -43,7 +44,6 @@ namespace 聞いて_相槌マシーン
             {
                 MessageBox.Show("ユーザー名またはパスワードが間違っています。");
             }
-
         }
 
         private void btnRegister_Click(object sender, EventArgs e)

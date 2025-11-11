@@ -34,6 +34,8 @@
             VoiceLabel = new Label();
             ToneLabel = new Label();
             jimaku = new Label();
+            JimakuSwitch = new Button();
+            UserLabel = new Label();
             SuspendLayout();
             // 
             // Start
@@ -81,6 +83,7 @@
             // ToneLabel
             // 
             ToneLabel.AutoSize = true;
+
             ToneLabel.Location = new Point(12, 59);
             ToneLabel.Margin = new Padding(2, 0, 2, 0);
             ToneLabel.Name = "ToneLabel";
@@ -97,7 +100,25 @@
             jimaku.Size = new Size(48, 25);
             jimaku.TabIndex = 7;
             jimaku.Text = "字幕";
-            jimaku.Click += jimaku_Click;
+            // 
+            // JimakuSwitch
+            // 
+            JimakuSwitch.Location = new Point(534, 323);
+            JimakuSwitch.Name = "JimakuSwitch";
+            JimakuSwitch.Size = new Size(94, 29);
+            JimakuSwitch.TabIndex = 8;
+            JimakuSwitch.Text = "字幕オフ";
+            JimakuSwitch.UseVisualStyleBackColor = true;
+            JimakuSwitch.Click += JimakuSwitch_Click;
+            // 
+            // UserLabel
+            // 
+            UserLabel.AutoSize = true;
+            UserLabel.Location = new Point(14, 31);
+            UserLabel.Name = "UserLabel";
+            UserLabel.Size = new Size(50, 20);
+            UserLabel.TabIndex = 9;
+            UserLabel.Text = "label2";
             // 
             // MainForm
             // 
@@ -128,5 +149,7 @@
         private Label VoiceLabel;
         private Label ToneLabel;
         private Label jimaku;
+        private Button JimakuSwitch;
+        private Label UserLabel;
     }
 }

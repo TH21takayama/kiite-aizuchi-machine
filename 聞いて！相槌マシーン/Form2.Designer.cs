@@ -33,6 +33,8 @@
             license = new Label();
             ToneBox = new ComboBox();
             reset = new Button();
+            button1 = new Button();
+            UserLabel = new Label();
             SuspendLayout();
             // 
             // VoiceBox
@@ -85,7 +87,26 @@
             reset.TabIndex = 4;
             reset.Text = "リセット";
             reset.UseVisualStyleBackColor = true;
-            reset.Click += button1_Click;
+            reset.Click += reset_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(12, 310);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 5;
+            button1.Text = "戻る";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // UserLabel
+            // 
+            UserLabel.AutoSize = true;
+            UserLabel.Location = new Point(12, 42);
+            UserLabel.Name = "UserLabel";
+            UserLabel.Size = new Size(50, 20);
+            UserLabel.TabIndex = 6;
+            UserLabel.Text = "label1";
             // 
             // VoiceForm
             // 
@@ -112,5 +133,7 @@
         private Label license;
         private ComboBox ToneBox;
         private Button reset;
+        private Button button1;
+        private Label UserLabel;
     }
 }

@@ -5,12 +5,18 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace 聞いて_相槌マシーン
 {
+    // 声と会話スタイルの選択画面
     public partial class VoiceForm : Form
     {
+
         private string username; // ログインしたユーザー名を保持
         public VoiceForm(string user)
         {
             InitializeComponent();
+            currentUser = username;
+
+            // ✅ ユーザー名を表示するラベル
+            UserLabel.Text = $"ユーザー：{currentUser}";
 
             username = user;
 
@@ -94,6 +100,8 @@ namespace 聞いて_相槌マシーン
             );
 
             if (result == DialogResult.Yes)
+            // ✅ MainFormにユーザー名を渡す
+            MainForm mainForm = new MainForm(this, currentUser)
             {
                 // DBに保存
                 DBHelper.SaveUserSettings(username, selectedVoice, selectedTone);
@@ -109,15 +117,32 @@ namespace 聞いて_相槌マシーン
             }
         }
 
-        private void button1_Click(object sender, EventArgs e) // リセットボタン
+        private void buttonReset_Click(object sender, EventArgs e) // リセットボタン
         {
             VoiceBox.Text = "";
             ToneBox.Text = "";
         }
 
-        private void VoiceForm_Load(object sender, EventArgs e)
-        {
+        //private void buttonBack_Click(object sender, EventArgs e) // 戻るボタン
+        //{
+        //    // ログイン画面に戻る処理
+        //    LoginForm loginForm = new LoginForm();
+        //    loginForm.Show();
+        //    this.Close(); // 現在のフォームを閉じる
+        //}// ログイン画面に戻る処理
+        
 
+        private void reset_Click(object sender, EventArgs e)
+        {
+            VoiceBox.Text = "";
+            ToneBox.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e)//戻るボタン
+        {
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
+            this.Close(); // 現在のフォームを閉じる
         }
     }
 }
