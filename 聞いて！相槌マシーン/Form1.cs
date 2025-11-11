@@ -26,6 +26,9 @@ namespace 聞いて_相槌マシーン
 
         private bool isJimakuOn = true; // ✅ 字幕表示状態（初期値ON）
 
+        private string characterImageFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "キャラクターイラスト");
+
+
         // 声の選択肢とフォルダ対応
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
