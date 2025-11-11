@@ -39,28 +39,25 @@
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(280, 138);
-            txtUsername.Margin = new Padding(4, 4, 4, 4);
+            txtUsername.Location = new Point(224, 110);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(339, 31);
+            txtUsername.Size = new Size(272, 27);
             txtUsername.TabIndex = 0;
             txtUsername.TextChanged += txtUsername_TextChanged;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(280, 218);
-            txtPassword.Margin = new Padding(4, 4, 4, 4);
+            txtPassword.Location = new Point(224, 174);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(339, 31);
+            txtPassword.Size = new Size(272, 27);
             txtPassword.TabIndex = 1;
             txtPassword.TextChanged += txtPassword_TextChanged;
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(342, 272);
-            btnLogin.Margin = new Padding(4, 4, 4, 4);
+            btnLogin.Location = new Point(274, 218);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(222, 54);
+            btnLogin.Size = new Size(178, 43);
             btnLogin.TabIndex = 2;
             btnLogin.Text = "ログイン";
             btnLogin.UseVisualStyleBackColor = true;
@@ -68,10 +65,9 @@
             // 
             // btnRegister
             // 
-            btnRegister.Location = new Point(342, 341);
-            btnRegister.Margin = new Padding(4, 4, 4, 4);
+            btnRegister.Location = new Point(274, 273);
             btnRegister.Name = "btnRegister";
-            btnRegister.Size = new Size(222, 54);
+            btnRegister.Size = new Size(178, 43);
             btnRegister.TabIndex = 3;
             btnRegister.Text = "新規登録";
             btnRegister.UseVisualStyleBackColor = true;
@@ -80,38 +76,35 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(280, 109);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(224, 87);
             label1.Name = "label1";
-            label1.Size = new Size(84, 25);
+            label1.Size = new Size(68, 20);
             label1.TabIndex = 4;
             label1.Text = "ユーザー名";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(280, 189);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(224, 151);
             label2.Name = "label2";
-            label2.Size = new Size(79, 25);
+            label2.Size = new Size(64, 20);
             label2.TabIndex = 5;
             label2.Text = "パスワード";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(422, 62);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(338, 50);
             label3.Name = "label3";
-            label3.Size = new Size(63, 25);
+            label3.Size = new Size(53, 20);
             label3.TabIndex = 6;
             label3.Text = "ログイン";
             // 
             // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1000, 562);
+            ClientSize = new Size(800, 450);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -119,10 +112,8 @@
             Controls.Add(btnLogin);
             Controls.Add(txtPassword);
             Controls.Add(txtUsername);
-            Margin = new Padding(4, 4, 4, 4);
             Name = "LoginForm";
             Text = "LoginForm";
-            Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
