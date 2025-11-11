@@ -2,13 +2,19 @@
 using System.Windows.Forms;
 
 namespace 聞いて_相槌マシーン
-    //声と会話スタイルの選択画面
 {
+    // 声と会話スタイルの選択画面
     public partial class VoiceForm : Form
     {
-        public VoiceForm()
+        private string currentUser; // ✅ ログイン画面から受け取ったユーザー名を保持
+
+        public VoiceForm(string username)
         {
             InitializeComponent();
+            currentUser = username;
+
+            // ✅ ユーザー名を表示するラベル
+            UserLabel.Text = $"ユーザー：{currentUser}";
 
             // コンボボックスを手入力可能に設定
             VoiceBox.DropDownStyle = ComboBoxStyle.DropDown;
@@ -55,27 +61,40 @@ namespace 聞いて_相槌マシーン
                 return;
             }
 
-            // MainFormのインスタンスを作成
-            MainForm mainForm = new MainForm(this)
+            // ✅ MainFormにユーザー名を渡す
+            MainForm mainForm = new MainForm(this, currentUser)
             {
                 SelectedVoice = selectedVoice,
                 SelectedTone = selectedTone
             };
 
-            // MainFormを表示してVoiceFormは非表示
             mainForm.Show();
             this.Hide();
         }
 
-        private void button1_Click(object sender, EventArgs e) // リセットボタン
+        private void buttonReset_Click(object sender, EventArgs e) // リセットボタン
         {
             VoiceBox.Text = "";
             ToneBox.Text = "";
         }
 
-        private void button1_Click_1(object sender, EventArgs e) // 戻るボタン
+        //private void buttonBack_Click(object sender, EventArgs e) // 戻るボタン
+        //{
+        //    // ログイン画面に戻る処理
+        //    LoginForm loginForm = new LoginForm();
+        //    loginForm.Show();
+        //    this.Close(); // 現在のフォームを閉じる
+        //}// ログイン画面に戻る処理
+        
+
+        private void reset_Click(object sender, EventArgs e)
         {
-            // ログイン画面に戻る処理
+            VoiceBox.Text = "";
+            ToneBox.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e)//戻るボタン
+        {
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Close(); // 現在のフォームを閉じる

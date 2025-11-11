@@ -35,6 +35,7 @@
             ToneLabel = new Label();
             jimaku = new Label();
             JimakuSwitch = new Button();
+            UserLabel = new Label();
             SuspendLayout();
             // 
             // Start
@@ -72,7 +73,7 @@
             // VoiceLabel
             // 
             VoiceLabel.AutoSize = true;
-            VoiceLabel.Location = new Point(10, 27);
+            VoiceLabel.Location = new Point(10, 51);
             VoiceLabel.Margin = new Padding(2, 0, 2, 0);
             VoiceLabel.Name = "VoiceLabel";
             VoiceLabel.Size = new Size(39, 20);
@@ -82,7 +83,7 @@
             // ToneLabel
             // 
             ToneLabel.AutoSize = true;
-            ToneLabel.Location = new Point(10, 47);
+            ToneLabel.Location = new Point(10, 71);
             ToneLabel.Margin = new Padding(2, 0, 2, 0);
             ToneLabel.Name = "ToneLabel";
             ToneLabel.Size = new Size(54, 20);
@@ -92,7 +93,7 @@
             // jimaku
             // 
             jimaku.AutoSize = true;
-            jimaku.Location = new Point(10, 67);
+            jimaku.Location = new Point(10, 91);
             jimaku.Name = "jimaku";
             jimaku.Size = new Size(39, 20);
             jimaku.TabIndex = 7;
@@ -108,11 +109,21 @@
             JimakuSwitch.UseVisualStyleBackColor = true;
             JimakuSwitch.Click += JimakuSwitch_Click;
             // 
+            // UserLabel
+            // 
+            UserLabel.AutoSize = true;
+            UserLabel.Location = new Point(14, 31);
+            UserLabel.Name = "UserLabel";
+            UserLabel.Size = new Size(50, 20);
+            UserLabel.TabIndex = 9;
+            UserLabel.Text = "label2";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(640, 360);
+            Controls.Add(UserLabel);
             Controls.Add(JimakuSwitch);
             Controls.Add(jimaku);
             Controls.Add(ToneLabel);
@@ -138,5 +149,6 @@
         private Label ToneLabel;
         private Label jimaku;
         private Button JimakuSwitch;
+        private Label UserLabel;
     }
 }
