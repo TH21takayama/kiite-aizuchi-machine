@@ -95,7 +95,7 @@
             // jimaku
             // 
             jimaku.AutoSize = true;
-            jimaku.Location = new Point(10, 91);
+            jimaku.Location = new Point(105, 185);
             jimaku.Name = "jimaku";
             jimaku.Size = new Size(39, 20);
             jimaku.TabIndex = 7;

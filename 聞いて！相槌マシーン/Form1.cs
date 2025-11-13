@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using System.Timers;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace 聞いて_相槌マシーン
 {
@@ -38,8 +39,6 @@ namespace 聞いて_相槌マシーン
         private WaveOutEvent waveOut;
         private AudioFileReader audioReader;
 
-        private float fadeOpacity = 1f;
-
         public MainForm(VoiceForm vf, string username)
         {
             InitializeComponent();
@@ -51,7 +50,6 @@ namespace 聞いて_相槌マシーン
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // ✅ 前回設定を復元
             var settings = DBHelper.GetUserSettings(currentUser);
             isJimakuOn = settings.JimakuOn;
             isImageOn = settings.ImageOn;
@@ -69,7 +67,6 @@ namespace 聞いて_相槌マシーン
             UserLabel.Text = $"ユーザー：{currentUser}";
             jimaku.Text = "";
             JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
-
 
             characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
         }
@@ -150,7 +147,6 @@ namespace 聞いて_相槌マシーン
                     responseDelayTimer.Stop();
                     PlayRandomVoiceAndImage();
                     lastVoiceTime = DateTime.Now;
-
                 };
                 responseDelayTimer.Start();
             }
@@ -171,7 +167,6 @@ namespace 聞いて_相槌マシーン
             int index = random.Next(voiceFiles.Length);
             string clipPath = voiceFiles[index];
 
-            // 音声再生（NAudio）
             waveOut?.Stop();
             waveOut?.Dispose();
             audioReader?.Dispose();
@@ -181,13 +176,15 @@ namespace 聞いて_相槌マシーン
             waveOut.Init(audioReader);
             waveOut.Play();
 
+            // ✅ 字幕から番号＋_を削除
             string subtitle = Path.GetFileNameWithoutExtension(clipPath);
+            subtitle = Regex.Replace(subtitle, @"^\d+_", "");
+
             Invoke(new Action(() =>
             {
                 jimaku.Text = isJimakuOn ? subtitle : "";
             }));
 
-            // ✅ 音声再生と同時に画像表示（ONの場合のみ）
             if (isImageOn && Directory.Exists(characterImageFolder))
             {
                 string[] imageFiles = Directory.GetFiles(characterImageFolder, "*.png");
@@ -213,11 +210,7 @@ namespace 聞いて_相槌マシーン
                     }
                 }
             }
-
-
         }
-
-       
 
         private void JimakuSwitch_Click(object sender, EventArgs e)
         {
@@ -226,8 +219,6 @@ namespace 聞いて_相槌マシーン
             if (!isJimakuOn) jimaku.Text = "";
             DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
         }
-
-        
 
         private void back_Click(object sender, EventArgs e)
         {
