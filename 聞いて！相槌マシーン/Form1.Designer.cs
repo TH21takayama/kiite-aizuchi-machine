@@ -36,14 +36,16 @@
             jimaku = new Label();
             JimakuSwitch = new Button();
             UserLabel = new Label();
+            characterPictureBox = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)characterPictureBox).BeginInit();
             SuspendLayout();
             // 
             // Start
             // 
-            Start.Location = new Point(198, 146);
+            Start.Location = new Point(234, 324);
             Start.Margin = new Padding(2);
             Start.Name = "Start";
-            Start.Size = new Size(224, 103);
+            Start.Size = new Size(191, 26);
             Start.TabIndex = 0;
             Start.Text = "開始";
             Start.UseVisualStyleBackColor = true;
@@ -118,11 +120,21 @@
             UserLabel.TabIndex = 9;
             UserLabel.Text = "label2";
             // 
+            // characterPictureBox
+            // 
+            characterPictureBox.Location = new Point(191, 40);
+            characterPictureBox.Name = "characterPictureBox";
+            characterPictureBox.Size = new Size(269, 269);
+            characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            characterPictureBox.TabIndex = 10;
+            characterPictureBox.TabStop = false;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(640, 360);
+            Controls.Add(characterPictureBox);
             Controls.Add(UserLabel);
             Controls.Add(JimakuSwitch);
             Controls.Add(jimaku);
@@ -134,6 +146,7 @@
             Margin = new Padding(2);
             Name = "MainForm";
             Text = "メイン";
+            ((System.ComponentModel.ISupportInitialize)characterPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -150,5 +163,6 @@
         private Label jimaku;
         private Button JimakuSwitch;
         private Label UserLabel;
+        private PictureBox characterPictureBox;
     }
 }

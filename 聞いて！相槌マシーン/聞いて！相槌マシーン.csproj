@@ -11,10 +11,274 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="キャラ絵\きりっと眉‐にっこり目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐にっこり目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐にっこり目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐にっこり目‐驚く.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐デフォルト目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐デフォルト目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐デフォルト目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐デフォルト目‐驚く.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐細目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐細目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐細目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐細目‐驚く.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐見開き目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐見開き目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐見開き目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\きりっと眉‐見開き目‐驚く.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐にっこり目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐にっこり目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐にっこり目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐にっこり目‐驚く.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐デフォルト目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐デフォルト目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐デフォルト目‐驚く.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐細目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐細目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐細目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐細目‐驚く.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐見開き目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐見開き目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐見開き目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\にっこり眉‐見開き目‐驚く.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐にっこり目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐にっこり目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐にっこり目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐にっこり目‐驚く.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐デフォルト目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐デフォルト目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐デフォルト目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐デフォルト目‐驚く.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐細目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐細目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐細目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐細目‐驚く.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐見開き目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐見開き目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐見開き目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\デフォルト眉‐見開き目‐驚く.PNG" />
+    <None Remove="キャラ絵\困り眉‐にっこり目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\困り眉‐にっこり目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\困り眉‐にっこり目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\困り眉‐にっこり目‐驚く.PNG" />
+    <None Remove="キャラ絵\困り眉‐デフォルト目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\困り眉‐デフォルト目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\困り眉‐デフォルト目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\困り眉‐デフォルト目‐驚く.PNG" />
+    <None Remove="キャラ絵\困り眉‐細目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\困り眉‐細目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\困り眉‐細目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\困り眉‐細目‐驚く.PNG" />
+    <None Remove="キャラ絵\困り眉‐見開き目‐しゃべる.PNG" />
+    <None Remove="キャラ絵\困り眉‐見開き目‐ほほえみ.PNG" />
+    <None Remove="キャラ絵\困り眉‐見開き目‐喜ぶ.PNG" />
+    <None Remove="キャラ絵\困り眉‐見開き目‐驚く.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="キャラ絵\きりっと眉‐にっこり目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐にっこり目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐にっこり目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐デフォルト目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐デフォルト目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐デフォルト目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐デフォルト目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐細目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐細目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐細目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐細目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐見開き目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐見開き目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐見開き目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\きりっと眉‐見開き目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐にっこり目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐にっこり目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐にっこり目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐デフォルト目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐デフォルト目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐デフォルト目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐細目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐細目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐細目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐細目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐見開き目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐見開き目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐見開き目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\にっこり眉‐見開き目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐にっこり目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐にっこり目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐にっこり目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐にっこり目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐デフォルト目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐デフォルト目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐デフォルト目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐デフォルト目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐細目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐細目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐細目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐細目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐見開き目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐見開き目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐見開き目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\デフォルト眉‐見開き目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐にっこり目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐にっこり目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐にっこり目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐にっこり目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐デフォルト目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐デフォルト目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐デフォルト目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐デフォルト目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐細目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐細目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐細目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐細目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐見開き目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐見開き目‐ほほえみ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐見開き目‐喜ぶ.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="キャラ絵\困り眉‐見開き目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.10" />
     <PackageReference Include="System.Data.SQLite" Version="2.0.2" />
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="キャラ絵\きりっと眉‐にっこり目‐驚く.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="キャラ絵\にっこり眉‐にっこり目‐しゃべる.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
