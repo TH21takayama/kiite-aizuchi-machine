@@ -1,78 +1,123 @@
 ﻿using System;
 using System.Data.SQLite;
 
-namespace 聞いて_相槌マシーン
+public static class DBHelper
 {
-    public static class DBHelper
+    private static string dbPath = "Data Source=app.db";
+
+    /// <summary>
+    /// DB初期化（テーブル作成）
+    /// </summary>
+    public static void Initialize()
     {
-        private static string dbPath = "相槌DB.sqlite";
-        private static string connectionString = $"Data Source={dbPath};Version=3;";
-
-        // 初期化（DBとテーブル作成）
-        public static void Initialize()
+        using (var conn = new SQLiteConnection(dbPath))
         {
-            if (!System.IO.File.Exists(dbPath))
+            conn.Open();
+            string createUserTable = @"CREATE TABLE IF NOT EXISTS Users (
+                                        Username TEXT PRIMARY KEY,
+                                        Password TEXT,
+                                        Voice TEXT,
+                                        Tone TEXT,
+                                        JimakuOn INTEGER DEFAULT 1,
+                                        ImageOn INTEGER DEFAULT 1)";
+            using (var cmd = new SQLiteCommand(createUserTable, conn))
             {
-                SQLiteConnection.CreateFile(dbPath);
+                cmd.ExecuteNonQuery();
             }
+        }
+    }
 
-            using (var conn = new SQLiteConnection(connectionString))
+    /// <summary>
+    /// ユーザー認証
+    /// </summary>
+    public static bool AuthenticateUser(string username, string password)
+    {
+        using (var conn = new SQLiteConnection(dbPath))
+        {
+            conn.Open();
+            string query = "SELECT COUNT(*) FROM Users WHERE Username=@u AND Password=@p";
+            using (var cmd = new SQLiteCommand(query, conn))
             {
-                conn.Open();
-                string createTableQuery = @"
-                    CREATE TABLE IF NOT EXISTS Users (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Username TEXT UNIQUE NOT NULL,
-                        Password TEXT NOT NULL
-                    );";
-                using (var cmd = new SQLiteCommand(createTableQuery, conn))
+                cmd.Parameters.AddWithValue("@u", username);
+                cmd.Parameters.AddWithValue("@p", password);
+                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 新規ユーザー登録
+    /// </summary>
+    public static bool RegisterUser(string username, string password)
+    {
+        using (var conn = new SQLiteConnection(dbPath))
+        {
+            conn.Open();
+            string query = "INSERT INTO Users (Username, Password, Voice, Tone, JimakuOn, ImageOn) VALUES (@u, @p, '', '', 1, 1)";
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@u", username);
+                cmd.Parameters.AddWithValue("@p", password);
+                try
                 {
                     cmd.ExecuteNonQuery();
+                    return true;
                 }
-            }
-        }
-
-        // ユーザー認証
-        public static bool AuthenticateUser(string username, string password)
-        {
-            using (var conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                string query = "SELECT COUNT(*) FROM Users WHERE Username=@user AND Password=@pass";
-                using (var cmd = new SQLiteCommand(query, conn))
+                catch
                 {
-                    cmd.Parameters.AddWithValue("@user", username);
-                    cmd.Parameters.AddWithValue("@pass", password);
-                    long count = (long)cmd.ExecuteScalar();
-                    return count > 0;
+                    return false; // ユーザー名重複など
                 }
             }
         }
+    }
 
-        // ユーザー登録
-        public static bool RegisterUser(string username, string password)
+    /// <summary>
+    /// ユーザー設定を保存（声・スタイル・字幕・画像）
+    /// </summary>
+    public static void SaveUserSettings(string username, string voice, string tone, bool jimakuOn, bool imageOn)
+    {
+        using (var conn = new SQLiteConnection(dbPath))
         {
-            using (var conn = new SQLiteConnection(connectionString))
+            conn.Open();
+            string query = "UPDATE Users SET Voice=@v, Tone=@t, JimakuOn=@j, ImageOn=@i WHERE Username=@u";
+            using (var cmd = new SQLiteCommand(query, conn))
             {
-                conn.Open();
-                string query = "INSERT INTO Users (Username, Password) VALUES (@user, @pass)";
-                using (var cmd = new SQLiteCommand(query, conn))
+                cmd.Parameters.AddWithValue("@v", voice);
+                cmd.Parameters.AddWithValue("@t", tone);
+                cmd.Parameters.AddWithValue("@j", jimakuOn ? 1 : 0);
+                cmd.Parameters.AddWithValue("@i", imageOn ? 1 : 0);
+                cmd.Parameters.AddWithValue("@u", username);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+
+    /// <summary>
+    /// ユーザー設定を取得
+    /// </summary>
+    public static (string Voice, string Tone, bool JimakuOn, bool ImageOn) GetUserSettings(string username)
+    {
+        using (var conn = new SQLiteConnection(dbPath))
+        {
+            conn.Open();
+            string query = "SELECT Voice, Tone, JimakuOn, ImageOn FROM Users WHERE Username=@u";
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@u", username);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    cmd.Parameters.AddWithValue("@user", username);
-                    cmd.Parameters.AddWithValue("@pass", password);
-                    try
+                    if (reader.Read())
                     {
-                        cmd.ExecuteNonQuery();
-                        return true;
-                    }
-                    catch (SQLiteException ex)
-                    {
-                        // ユーザー名重複など
-                        Console.WriteLine(ex.Message);
-                        return false;
+                        return (
+                            reader["Voice"].ToString(),
+                            reader["Tone"].ToString(),
+                            Convert.ToInt32(reader["JimakuOn"]) == 1,
+                            Convert.ToInt32(reader["ImageOn"]) == 1
+                        );
                     }
                 }
             }
         }
+        return ("", "", true, true); // デフォルト値
     }
 }

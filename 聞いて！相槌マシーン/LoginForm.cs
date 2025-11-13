@@ -8,7 +8,7 @@ namespace 聞いて_相槌マシーン
         public LoginForm()
         {
             InitializeComponent();
-            DBHelper.Initialize();
+            DBHelper.Initialize(); // ✅ DB初期化（テーブル作成）
             btnLogin.Enabled = false; // 初期状態は無効
         }
 
@@ -30,8 +30,8 @@ namespace 聞いて_相槌マシーン
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string user = txtUsername.Text;
-            string pass = txtPassword.Text;
+            string user = txtUsername.Text.Trim();
+            string pass = txtPassword.Text.Trim();
 
             if (DBHelper.AuthenticateUser(user, pass))
             {

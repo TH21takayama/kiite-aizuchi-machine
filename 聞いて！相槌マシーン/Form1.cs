@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Media;
 using System.Windows.Forms;
 using NAudio.Wave;
 using System.Timers;
@@ -16,7 +15,6 @@ namespace 聞いて_相槌マシーン
 
         private VoiceForm voiceForm;
         private string currentUser;
-        private SoundPlayer player = null;
         private Random random = new Random();
 
         private WaveInEvent waveIn;
@@ -25,8 +23,8 @@ namespace 聞いて_相槌マシーン
         private System.Timers.Timer responseDelayTimer;
 
         private bool isJimakuOn = true;
+        private bool isImageOn = true;
 
-        // ✅ フォルダ名を「キャラ絵」に修正
         private string characterImageFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "キャラ絵");
 
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
@@ -36,6 +34,11 @@ namespace 聞いて_相槌マシーン
             {"男性A","相槌_倉橋"},
             {"男性B","相槌_中谷"}
         };
+
+        private WaveOutEvent waveOut;
+        private AudioFileReader audioReader;
+
+        private float fadeOpacity = 1f;
 
         public MainForm(VoiceForm vf, string username)
         {
@@ -48,6 +51,11 @@ namespace 聞いて_相槌マシーン
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // ✅ 前回設定を復元
+            var settings = DBHelper.GetUserSettings(currentUser);
+            isJimakuOn = settings.JimakuOn;
+            isImageOn = settings.ImageOn;
+
             if (SelectedVoice == "声を選んでね" || SelectedTone == "会話スタイルを選んでね")
             {
                 MessageBox.Show("声と会話スタイルを正しく選んでください。");
@@ -60,9 +68,9 @@ namespace 聞いて_相槌マシーン
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             UserLabel.Text = $"ユーザー：{currentUser}";
             jimaku.Text = "";
-            JimakuSwitch.Text = "字幕OFF";
+            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
 
-            // ✅ PictureBoxの初期設定（フォームに追加済み前提）
+
             characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
@@ -108,12 +116,9 @@ namespace 聞いて_相槌マシーン
             responseDelayTimer?.Dispose();
             responseDelayTimer = null;
 
-            if (player != null)
-            {
-                player.Stop();
-                player.Dispose();
-                player = null;
-            }
+            waveOut?.Stop();
+            waveOut?.Dispose();
+            audioReader?.Dispose();
         }
 
         private void OnDataAvailable(object sender, WaveInEventArgs e)
@@ -145,7 +150,7 @@ namespace 聞いて_相槌マシーン
                     responseDelayTimer.Stop();
                     PlayRandomVoiceAndImage();
                     lastVoiceTime = DateTime.Now;
-                    silenceCheckTimer.Start();
+
                 };
                 responseDelayTimer.Start();
             }
@@ -166,23 +171,24 @@ namespace 聞いて_相槌マシーン
             int index = random.Next(voiceFiles.Length);
             string clipPath = voiceFiles[index];
 
-            if (player != null)
-            {
-                player.Stop();
-                player.Dispose();
-            }
-            player = new SoundPlayer(clipPath);
-            player.Play();
+            // 音声再生（NAudio）
+            waveOut?.Stop();
+            waveOut?.Dispose();
+            audioReader?.Dispose();
+
+            audioReader = new AudioFileReader(clipPath);
+            waveOut = new WaveOutEvent();
+            waveOut.Init(audioReader);
+            waveOut.Play();
 
             string subtitle = Path.GetFileNameWithoutExtension(clipPath);
-
             Invoke(new Action(() =>
             {
                 jimaku.Text = isJimakuOn ? subtitle : "";
             }));
 
-            // ✅ ランダム画像表示（MemoryStreamでロック回避）
-            if (Directory.Exists(characterImageFolder))
+            // ✅ 音声再生と同時に画像表示（ONの場合のみ）
+            if (isImageOn && Directory.Exists(characterImageFolder))
             {
                 string[] imageFiles = Directory.GetFiles(characterImageFolder, "*.png");
                 if (imageFiles.Length > 0)
@@ -207,7 +213,21 @@ namespace 聞いて_相槌マシーン
                     }
                 }
             }
+
+
         }
+
+       
+
+        private void JimakuSwitch_Click(object sender, EventArgs e)
+        {
+            isJimakuOn = !isJimakuOn;
+            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
+            if (!isJimakuOn) jimaku.Text = "";
+            DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
+        }
+
+        
 
         private void back_Click(object sender, EventArgs e)
         {
@@ -219,6 +239,7 @@ namespace 聞いて_相槌マシーン
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             StopListening();
+            DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
         }
 
         private void reset_Click(object sender, EventArgs e)
@@ -229,16 +250,6 @@ namespace 聞いて_相槌マシーン
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             jimaku.Text = "";
-        }
-
-        private void JimakuSwitch_Click(object sender, EventArgs e)
-        {
-            isJimakuOn = !isJimakuOn;
-            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
-            if (!isJimakuOn)
-            {
-                jimaku.Text = "";
-            }
         }
     }
 }
