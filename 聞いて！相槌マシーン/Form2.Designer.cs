@@ -86,8 +86,7 @@
             reset.TabIndex = 4;
             reset.Text = "リセット";
             reset.UseVisualStyleBackColor = true;
-            reset.Click += reset_Click;
-            // 
+
             // button1
             // 
             button1.Location = new Point(12, 310);

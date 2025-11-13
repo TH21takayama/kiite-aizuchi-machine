@@ -21,15 +21,17 @@ namespace 聞いて_相槌マシーン
             ToneBox.DropDownStyle = ComboBoxStyle.DropDown;
 
             // 声の選択肢
-            VoiceBox.Items.Add("女性A"); // 母
-            VoiceBox.Items.Add("女性B"); // 高山
-            VoiceBox.Items.Add("男性A"); // 倉橋
-            VoiceBox.Items.Add("男性B"); // 中谷
+            VoiceBox.Items.AddRange(new string[] { "女性A", "女性B", "男性A", "男性B" });
 
             // 会話スタイルの選択肢
-            ToneBox.Items.Add("愚痴");
-            ToneBox.Items.Add("自慢");
-            ToneBox.Items.Add("汎用");
+            ToneBox.Items.AddRange(new string[] { "愚痴", "自慢", "汎用" });
+
+            // ✅ 前回選択を復元
+            var settings = DBHelper.GetUserSettings(currentUser);
+            if (!string.IsNullOrEmpty(settings.Voice)) VoiceBox.Text = settings.Voice;
+            if (!string.IsNullOrEmpty(settings.Tone)) ToneBox.Text = settings.Tone;
+
+
         }
 
         private void Next_Click(object sender, EventArgs e)
@@ -38,28 +40,21 @@ namespace 聞いて_相槌マシーン
             string selectedTone = ToneBox.Text.Trim();
 
             // 声の入力チェック
-            if (string.IsNullOrEmpty(selectedVoice))
+            if (string.IsNullOrEmpty(selectedVoice) || !VoiceBox.Items.Contains(selectedVoice))
             {
-                MessageBox.Show("声を選んでください。");
-                return;
-            }
-            if (!VoiceBox.Items.Contains(selectedVoice))
-            {
-                MessageBox.Show("存在しない声が入力されています。");
+                MessageBox.Show("声を正しく選んでください。");
                 return;
             }
 
             // 会話スタイルの入力チェック
-            if (string.IsNullOrEmpty(selectedTone))
+            if (string.IsNullOrEmpty(selectedTone) || !ToneBox.Items.Contains(selectedTone))
             {
-                MessageBox.Show("会話スタイルを選んでください。");
+                MessageBox.Show("会話スタイルを正しく選んでください。");
                 return;
             }
-            if (!ToneBox.Items.Contains(selectedTone))
-            {
-                MessageBox.Show("存在しない会話スタイルが入力されています。");
-                return;
-            }
+
+            // ✅ DBに保存（字幕・画像はMainFormで更新）
+            DBHelper.SaveUserSettings(currentUser, selectedVoice, selectedTone, true, true);
 
             // ✅ MainFormにユーザー名を渡す
             MainForm mainForm = new MainForm(this, currentUser)
@@ -78,13 +73,7 @@ namespace 聞いて_相槌マシーン
             ToneBox.Text = "";
         }
 
-        private void reset_Click(object sender, EventArgs e)
-        {
-            VoiceBox.Text = "";
-            ToneBox.Text = "";
-        }
-
-        private void button1_Click(object sender, EventArgs e)//戻るボタン
+        private void button1_Click(object sender, EventArgs e) // 戻るボタン
         {
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
