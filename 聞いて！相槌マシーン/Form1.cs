@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using System.Timers;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Text.RegularExpressions;
 
 namespace 聞いて_相槌マシーン
@@ -39,6 +40,10 @@ namespace 聞いて_相槌マシーン
         private WaveOutEvent waveOut;
         private AudioFileReader audioReader;
 
+        // ✅ 吹き出し用Panelと字幕Label
+        private Panel speechBubblePanel;
+        private Label bubbleText;
+
         public MainForm(VoiceForm vf, string username)
         {
             InitializeComponent();
@@ -46,6 +51,29 @@ namespace 聞いて_相槌マシーン
             this.FormClosing += MainForm_FormClosing;
             voiceForm = vf;
             currentUser = username;
+
+            // ✅ 吹き出しPanel初期化
+            speechBubblePanel = new Panel
+            {
+                Size = new Size(300, 150),
+                Visible = false,
+                BackColor = Color.Transparent
+            };
+            speechBubblePanel.Paint += DrawSpeechBubble;
+
+            // ✅ 吹き出し内の字幕Label
+            bubbleText = new Label
+            {
+                AutoSize = false,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Meiryo", 14, FontStyle.Bold),
+                BackColor = Color.Transparent,
+                ForeColor = Color.Black
+            };
+
+            speechBubblePanel.Controls.Add(bubbleText);
+            this.Controls.Add(speechBubblePanel);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -65,7 +93,6 @@ namespace 聞いて_相槌マシーン
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             UserLabel.Text = $"ユーザー：{currentUser}";
-            jimaku.Text = "";
             JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
 
             characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -182,7 +209,23 @@ namespace 聞いて_相槌マシーン
 
             Invoke(new Action(() =>
             {
-                jimaku.Text = isJimakuOn ? subtitle : "";
+                if (isJimakuOn)
+                {
+                    bubbleText.Text = subtitle;
+
+                    // 吹き出し位置：キャラ画像の左側、縦中央
+                    speechBubblePanel.Location = new Point(
+                        characterPictureBox.Left - speechBubblePanel.Width - 10,
+                        characterPictureBox.Top + (characterPictureBox.Height / 2) - (speechBubblePanel.Height / 2)
+                    );
+
+                    speechBubblePanel.Visible = true;
+                    speechBubblePanel.Invalidate(); // 再描画
+                }
+                else
+                {
+                    speechBubblePanel.Visible = false;
+                }
             }));
 
             if (isImageOn && Directory.Exists(characterImageFolder))
@@ -212,11 +255,45 @@ namespace 聞いて_相槌マシーン
             }
         }
 
+        private void DrawSpeechBubble(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            Rectangle rect = new Rectangle(0, 0, speechBubblePanel.Width - 1, speechBubblePanel.Height - 1);
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                int radius = 20;
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+                path.CloseFigure();
+
+                using (SolidBrush brush = new SolidBrush(Color.White))
+                using (Pen pen = new Pen(Color.Gray, 2))
+                {
+                    g.FillPath(brush, path);
+                    g.DrawPath(pen, path);
+                }
+            }
+
+            // 吹き出しのしっぽ
+            Point[] tail = {
+                new Point(rect.Right, rect.Bottom / 2),
+                new Point(rect.Right + 20, rect.Bottom / 2 + 10),
+                new Point(rect.Right, rect.Bottom / 2 + 20)
+            };
+            g.FillPolygon(Brushes.White, tail);
+            g.DrawPolygon(Pens.Gray, tail);
+        }
+
         private void JimakuSwitch_Click(object sender, EventArgs e)
         {
             isJimakuOn = !isJimakuOn;
             JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
-            if (!isJimakuOn) jimaku.Text = "";
+            if (!isJimakuOn) speechBubblePanel.Visible = false;
             DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
         }
 
@@ -240,7 +317,8 @@ namespace 聞いて_相槌マシーン
 
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
-            jimaku.Text = "";
+            bubbleText.Text = "";
+            speechBubblePanel.Visible = false;
         }
     }
 }

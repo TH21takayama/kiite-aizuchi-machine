@@ -33,7 +33,6 @@
             back = new Button();
             VoiceLabel = new Label();
             ToneLabel = new Label();
-            jimaku = new Label();
             JimakuSwitch = new Button();
             UserLabel = new Label();
             characterPictureBox = new PictureBox();
@@ -92,15 +91,6 @@
             ToneLabel.TabIndex = 6;
             ToneLabel.Text = "スタイル";
             // 
-            // jimaku
-            // 
-            jimaku.AutoSize = true;
-            jimaku.Location = new Point(105, 185);
-            jimaku.Name = "jimaku";
-            jimaku.Size = new Size(39, 20);
-            jimaku.TabIndex = 7;
-            jimaku.Text = "字幕";
-            // 
             // JimakuSwitch
             // 
             JimakuSwitch.Location = new Point(534, 323);
@@ -116,9 +106,9 @@
             UserLabel.AutoSize = true;
             UserLabel.Location = new Point(14, 31);
             UserLabel.Name = "UserLabel";
-            UserLabel.Size = new Size(50, 20);
+            UserLabel.Size = new Size(68, 20);
             UserLabel.TabIndex = 9;
-            UserLabel.Text = "label2";
+            UserLabel.Text = "ユーザー名";
             // 
             // characterPictureBox
             // 
@@ -137,7 +127,6 @@
             Controls.Add(characterPictureBox);
             Controls.Add(UserLabel);
             Controls.Add(JimakuSwitch);
-            Controls.Add(jimaku);
             Controls.Add(ToneLabel);
             Controls.Add(VoiceLabel);
             Controls.Add(back);
@@ -160,7 +149,6 @@
         private Button back;
         private Label VoiceLabel;
         private Label ToneLabel;
-        private Label jimaku;
         private Button JimakuSwitch;
         private Label UserLabel;
         private PictureBox characterPictureBox;
