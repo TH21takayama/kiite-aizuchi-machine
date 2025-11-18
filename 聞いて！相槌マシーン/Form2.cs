@@ -69,8 +69,12 @@ namespace 聞いて_相槌マシーン
 
         private void buttonReset_Click(object sender, EventArgs e) // リセットボタン
         {
-            VoiceBox.Text = "";
-            ToneBox.Text = "";
+            // DB を初期化（ユーザーの Voice, Tone, JimakuOn, ImageOn をリセット）
+            DBHelper.ResetUserSettings(currentUser);
+
+            // UIも未選択に戻す
+            VoiceBox.SelectedIndex = -1;
+            ToneBox.SelectedIndex = -1;
         }
 
         private void button1_Click(object sender, EventArgs e) // 戻るボタン
@@ -78,6 +82,11 @@ namespace 聞いて_相槌マシーン
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Close(); // 現在のフォームを閉じる
+        }
+
+        private void VoiceForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

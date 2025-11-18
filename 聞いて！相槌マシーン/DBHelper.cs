@@ -91,6 +91,28 @@ public static class DBHelper
             }
         }
     }
+    /// <summary>
+    /// 🔥 ユーザー設定を初期化（リセット）
+    /// </summary>
+    public static void ResetUserSettings(string username)
+    {
+        using (var conn = new SQLiteConnection(dbPath))
+        {
+            conn.Open();
+            string query = @"UPDATE Users 
+                             SET Voice='', 
+                                 Tone='', 
+                                 JimakuOn=1, 
+                                 ImageOn=1
+                             WHERE Username=@u";
+
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@u", username);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
 
     /// <summary>
     /// ユーザー設定を取得
