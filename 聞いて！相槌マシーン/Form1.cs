@@ -213,14 +213,20 @@ namespace 聞いて_相槌マシーン
                 {
                     bubbleText.Text = subtitle;
 
-                    // 吹き出し位置：キャラ画像の左側、縦中央
-                    speechBubblePanel.Location = new Point(
-                        characterPictureBox.Left - speechBubblePanel.Width - 10,
-                        characterPictureBox.Top + (characterPictureBox.Height / 2) - (speechBubblePanel.Height / 2)
-                    );
+                    // 吹き出しの希望位置
+                    int x = characterPictureBox.Left - speechBubblePanel.Width - 10;
+                    int y = characterPictureBox.Top + (characterPictureBox.Height / 2) - (speechBubblePanel.Height / 2);
 
+                    // フォーム内に収まるように補正
+                    if (x < 0) x = 10; // 左にはみ出さない
+                    if (y < 0) y = 10; // 上にはみ出さない
+                    if (y + speechBubblePanel.Height > this.ClientSize.Height)
+                        y = this.ClientSize.Height - speechBubblePanel.Height - 10; // 下にはみ出さない
+
+                    speechBubblePanel.Location = new Point(x, y);
                     speechBubblePanel.Visible = true;
-                    speechBubblePanel.Invalidate(); // 再描画
+                    speechBubblePanel.Invalidate();
+                    speechBubblePanel.BringToFront();
                 }
                 else
                 {
