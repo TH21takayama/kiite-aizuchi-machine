@@ -77,7 +77,7 @@ namespace 聞いて_相槌マシーン
             ToneBox.Text = "会話スタイルをえらんでね";
         }
 
-        private void button1_Click(object sender, EventArgs e) // 戻るボタン
+        private void buttonback_Click(object sender, EventArgs e) // 戻るボタン
         {
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
