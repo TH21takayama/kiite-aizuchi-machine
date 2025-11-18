@@ -72,9 +72,9 @@ namespace 聞いて_相槌マシーン
             // DB を初期化（ユーザーの Voice, Tone, JimakuOn, ImageOn をリセット）
             DBHelper.ResetUserSettings(currentUser);
 
-            // UIも未選択に戻す
-            VoiceBox.SelectedIndex = -1;
-            ToneBox.SelectedIndex = -1;
+            // UIを初期状態に戻す
+            VoiceBox.Text = "声を選んでね";
+            ToneBox.Text = "会話スタイルをえらんでね";
         }
 
         private void button1_Click(object sender, EventArgs e) // 戻るボタン
