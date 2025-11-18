@@ -33,7 +33,7 @@
             license = new Label();
             ToneBox = new ComboBox();
             reset = new Button();
-            button1 = new Button();
+            buttonback = new Button();
             UserLabel = new Label();
             SuspendLayout();
             // 
@@ -81,7 +81,7 @@
             // reset
             // 
             reset.Location = new Point(656, 388);
-            reset.Margin = new Padding(4, 4, 4, 4);
+            reset.Margin = new Padding(4);
             reset.Name = "reset";
             reset.Size = new Size(118, 36);
             reset.TabIndex = 4;
@@ -89,16 +89,16 @@
             reset.UseVisualStyleBackColor = true;
             reset.Click += buttonReset_Click;
             // 
-            // button1
-            // hg
-            button1.Location = new Point(15, 388);
-            button1.Margin = new Padding(4, 4, 4, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(118, 36);
-            button1.TabIndex = 5;
-            button1.Text = "戻る";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            // buttonback
+            // 
+            buttonback.Location = new Point(15, 388);
+            buttonback.Margin = new Padding(4);
+            buttonback.Name = "buttonback";
+            buttonback.Size = new Size(118, 36);
+            buttonback.TabIndex = 5;
+            buttonback.Text = "戻る";
+            buttonback.UseVisualStyleBackColor = true;
+            buttonback.Click += buttonback_Click;
             // 
             // UserLabel
             // 
@@ -106,9 +106,9 @@
             UserLabel.Location = new Point(15, 52);
             UserLabel.Margin = new Padding(4, 0, 4, 0);
             UserLabel.Name = "UserLabel";
-            UserLabel.Size = new Size(59, 25);
+            UserLabel.Size = new Size(66, 25);
             UserLabel.TabIndex = 6;
-            UserLabel.Text = "label1";
+            UserLabel.Text = "ユーザー";
             // 
             // VoiceForm
             // 
@@ -116,7 +116,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(UserLabel);
-            Controls.Add(button1);
+            Controls.Add(buttonback);
             Controls.Add(reset);
             Controls.Add(ToneBox);
             Controls.Add(license);
@@ -137,7 +137,7 @@
         private Label license;
         private ComboBox ToneBox;
         private Button reset;
-        private Button button1;
+        private Button buttonback;
         private Label UserLabel;
     }
 }
