@@ -213,20 +213,30 @@ namespace 聞いて_相槌マシーン
                 {
                     bubbleText.Text = subtitle;
 
-                    // 吹き出しの希望位置
-                    int x = characterPictureBox.Left - speechBubblePanel.Width - 10;
-                    int y = characterPictureBox.Top + (characterPictureBox.Height / 2) - (speechBubblePanel.Height / 2);
+                    // フォーム左端からキャラクター左端までの幅に固定
+                    int panelWidth = characterPictureBox.Left - 10; // キャラに被らないように余白10px
+                    if (panelWidth < 50) panelWidth = 50;
 
-                    // フォーム内に収まるように補正
-                    if (x < 0) x = 10; // 左にはみ出さない
-                    if (y < 0) y = 10; // 上にはみ出さない
-                    if (y + speechBubblePanel.Height > this.ClientSize.Height)
-                        y = this.ClientSize.Height - speechBubblePanel.Height - 10; // 下にはみ出さない
+                    // 高さはキャラの高さに合わせる
+                    int panelHeight = characterPictureBox.Height / 2;
+                    if (panelHeight > this.ClientSize.Height - 20) // フォーム上下には余白10pxずつ
+                        panelHeight = this.ClientSize.Height - 20;
 
+                    speechBubblePanel.Size = new Size(panelWidth, panelHeight);
+
+                    bubbleText.MaximumSize = new Size(panelWidth - 10, panelHeight - 10); // 余白10px
+                    bubbleText.AutoSize = false;
+                    bubbleText.Dock = DockStyle.Fill;
+                    bubbleText.TextAlign = ContentAlignment.MiddleCenter;
+
+                    // 吹き出し位置を調整
+                    int x = 10; // 左端から10px
+                    int y = characterPictureBox.Top + characterPictureBox.Height - panelHeight; // キャラの下に合わせる
                     speechBubblePanel.Location = new Point(x, y);
+
                     speechBubblePanel.Visible = true;
-                    speechBubblePanel.Invalidate();
                     speechBubblePanel.BringToFront();
+                    speechBubblePanel.Invalidate();
                 }
                 else
                 {
