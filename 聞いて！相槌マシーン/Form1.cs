@@ -93,7 +93,7 @@ namespace 聞いて_相槌マシーン
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             UserLabel.Text = $"ユーザー：{currentUser}";
-            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
+            JimakuSwitch.Text = isJimakuOn ? "字幕オフ" : "字幕オン";
 
             characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
         }
