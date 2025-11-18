@@ -36,6 +36,7 @@
             JimakuSwitch = new Button();
             UserLabel = new Label();
             characterPictureBox = new PictureBox();
+            characterSwitch = new Button();
             ((System.ComponentModel.ISupportInitialize)characterPictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -119,11 +120,22 @@
             characterPictureBox.TabIndex = 10;
             characterPictureBox.TabStop = false;
             // 
+            // characterSwitch
+            // 
+            characterSwitch.Location = new Point(534, 280);
+            characterSwitch.Name = "characterSwitch";
+            characterSwitch.Size = new Size(94, 29);
+            characterSwitch.TabIndex = 11;
+            characterSwitch.Text = "キャラ絵オフ";
+            characterSwitch.UseVisualStyleBackColor = true;
+            characterSwitch.Click += characterSwitch_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(640, 360);
+            Controls.Add(characterSwitch);
             Controls.Add(characterPictureBox);
             Controls.Add(UserLabel);
             Controls.Add(JimakuSwitch);
@@ -152,5 +164,6 @@
         private Button JimakuSwitch;
         private Label UserLabel;
         private PictureBox characterPictureBox;
+        private Button characterSwitch;
     }
 }

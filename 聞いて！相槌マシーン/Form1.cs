@@ -308,7 +308,7 @@ namespace 聞いて_相槌マシーン
         private void JimakuSwitch_Click(object sender, EventArgs e)
         {
             isJimakuOn = !isJimakuOn;
-            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
+            JimakuSwitch.Text = isJimakuOn ? "字幕オフ" : "字幕オン";
             if (!isJimakuOn) speechBubblePanel.Visible = false;
             DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
         }
@@ -335,6 +335,52 @@ namespace 聞いて_相槌マシーン
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             bubbleText.Text = "";
             speechBubblePanel.Visible = false;
+        }
+
+        private void characterSwitch_Click(object sender, EventArgs e)
+        {
+            // ON/OFF切り替え
+            isImageOn = !isImageOn;
+
+            // ボタンのテキストを変更
+            characterSwitch.Text = isImageOn ? "キャラ絵オフ" : "キャラ絵オン";
+
+            // OFFならキャラ絵を非表示
+            if (!isImageOn)
+            {
+                characterPictureBox.Image = null;
+            }
+            else
+            {
+                // ONに戻した場合、画像を再表示（フォルダからランダム選択）
+                if (Directory.Exists(characterImageFolder))
+                {
+                    string[] imageFiles = Directory.GetFiles(characterImageFolder, "*.png")
+                        .Concat(Directory.GetFiles(characterImageFolder, "*.jpg")).ToArray();
+
+                    if (imageFiles.Length > 0)
+                    {
+                        int imgIndex = random.Next(imageFiles.Length);
+                        string imgPath = imageFiles[imgIndex];
+
+                        try
+                        {
+                            using (FileStream fs = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
+                            {
+                                Image img = Image.FromStream(fs);
+                                characterPictureBox.Image = img;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("画像読み込みエラー: " + ex.Message);
+                        }
+                    }
+                }
+            }
+
+            // DBに状態を保存
+            DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
         }
     }
 }
