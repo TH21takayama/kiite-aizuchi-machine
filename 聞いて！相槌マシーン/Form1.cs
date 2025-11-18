@@ -213,25 +213,29 @@ namespace 聞いて_相槌マシーン
                 {
                     bubbleText.Text = subtitle;
 
-                    // フォーム左端からキャラクター左端までの幅に固定
-                    int panelWidth = characterPictureBox.Left - 10; // キャラに被らないように余白10px
+                    int tailWidth = 20;
+                    int tailHeight = 20;
+
+                    // フォーム左端からキャラクター左端までの幅に固定（吹き出し本体）
+                    int panelWidth = characterPictureBox.Left - 10;
                     if (panelWidth < 50) panelWidth = 50;
 
                     // 高さはキャラの高さに合わせる
                     int panelHeight = characterPictureBox.Height / 2;
-                    if (panelHeight > this.ClientSize.Height - 20) // フォーム上下には余白10pxずつ
-                        panelHeight = this.ClientSize.Height - 20;
+                    if (panelHeight > this.ClientSize.Height - 30)
+                        panelHeight = this.ClientSize.Height - 30;
 
-                    speechBubblePanel.Size = new Size(panelWidth, panelHeight);
+                    // パネル全体のサイズは吹き出し本体＋しっぽ分
+                    speechBubblePanel.Size = new Size(panelWidth + tailWidth, panelHeight + tailHeight);
 
-                    bubbleText.MaximumSize = new Size(panelWidth - 10, panelHeight - 10); // 余白10px
+                    bubbleText.MaximumSize = new Size(panelWidth - 10, panelHeight - 10);
                     bubbleText.AutoSize = false;
                     bubbleText.Dock = DockStyle.Fill;
                     bubbleText.TextAlign = ContentAlignment.MiddleCenter;
 
-                    // 吹き出し位置を調整
-                    int x = 10; // 左端から10px
-                    int y = characterPictureBox.Top + characterPictureBox.Height - panelHeight; // キャラの下に合わせる
+                    // パネル位置をキャラの下に表示（しっぽ分を上に空ける）
+                    int x = 10;
+                    int y = characterPictureBox.Top + characterPictureBox.Height - panelHeight - tailHeight;
                     speechBubblePanel.Location = new Point(x, y);
 
                     speechBubblePanel.Visible = true;
@@ -276,7 +280,11 @@ namespace 聞いて_相槌マシーン
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Rectangle rect = new Rectangle(0, 0, speechBubblePanel.Width - 1, speechBubblePanel.Height - 1);
+            int tailWidth = 20;
+            int tailHeight = 20;
+
+            // 吹き出し本体の矩形（しっぽ分を除く）
+            Rectangle rect = new Rectangle(0, 0, speechBubblePanel.Width - tailWidth - 1, speechBubblePanel.Height - tailHeight - 1);
 
             using (GraphicsPath path = new GraphicsPath())
             {
@@ -295,12 +303,13 @@ namespace 聞いて_相槌マシーン
                 }
             }
 
-            // 吹き出しのしっぽ
+            // しっぽを描画（右下に向ける）
             Point[] tail = {
-                new Point(rect.Right, rect.Bottom / 2),
-                new Point(rect.Right + 20, rect.Bottom / 2 + 10),
-                new Point(rect.Right, rect.Bottom / 2 + 20)
+                new Point(rect.Right, rect.Bottom - rect.Height / 4),
+                new Point(rect.Right + tailWidth, rect.Bottom - rect.Height / 4 + tailHeight / 2),
+                new Point(rect.Right, rect.Bottom - rect.Height / 4 + tailHeight)
             };
+
             g.FillPolygon(Brushes.White, tail);
             g.DrawPolygon(Pens.Gray, tail);
         }
