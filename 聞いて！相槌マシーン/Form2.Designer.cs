@@ -35,6 +35,7 @@
             reset = new Button();
             buttonback = new Button();
             UserLabel = new Label();
+            chatbutton = new Button();
             SuspendLayout();
             // 
             // VoiceBox
@@ -49,12 +50,12 @@
             // 
             // Next
             // 
-            Next.Location = new Point(294, 308);
+            Next.Location = new Point(496, 308);
             Next.Margin = new Padding(2);
             Next.Name = "Next";
             Next.Size = new Size(188, 62);
             Next.TabIndex = 1;
-            Next.Text = "決定";
+            Next.Text = "音声会話";
             Next.UseVisualStyleBackColor = true;
             Next.Click += Next_Click;
             // 
@@ -110,11 +111,22 @@
             UserLabel.TabIndex = 6;
             UserLabel.Text = "ユーザー";
             // 
+            // chatbutton
+            // 
+            chatbutton.Location = new Point(107, 308);
+            chatbutton.Name = "chatbutton";
+            chatbutton.Size = new Size(188, 62);
+            chatbutton.TabIndex = 7;
+            chatbutton.Text = "チャット";
+            chatbutton.UseVisualStyleBackColor = true;
+            chatbutton.Click += chatbutton_Click;
+            // 
             // VoiceForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(chatbutton);
             Controls.Add(UserLabel);
             Controls.Add(buttonback);
             Controls.Add(reset);
@@ -139,5 +151,6 @@
         private Button reset;
         private Button buttonback;
         private Label UserLabel;
+        private Button chatbutton;
     }
 }

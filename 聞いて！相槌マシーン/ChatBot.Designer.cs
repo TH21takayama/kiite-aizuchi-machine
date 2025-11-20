@@ -42,94 +42,106 @@
             // 
             // btnSend
             // 
-            btnSend.Location = new Point(409, 370);
+            btnSend.Location = new Point(511, 462);
+            btnSend.Margin = new Padding(4);
             btnSend.Name = "btnSend";
-            btnSend.Size = new Size(94, 29);
+            btnSend.Size = new Size(118, 36);
             btnSend.TabIndex = 0;
             btnSend.Text = "送信";
             btnSend.UseVisualStyleBackColor = true;
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(340, 411);
+            btnClear.Location = new Point(425, 514);
+            btnClear.Margin = new Padding(4);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(94, 29);
+            btnClear.Size = new Size(118, 36);
             btnClear.TabIndex = 1;
             btnClear.Text = "クリア";
             btnClear.UseVisualStyleBackColor = true;
             // 
             // btnSaveLog
             // 
-            btnSaveLog.Location = new Point(440, 411);
+            btnSaveLog.Location = new Point(550, 514);
+            btnSaveLog.Margin = new Padding(4);
             btnSaveLog.Name = "btnSaveLog";
-            btnSaveLog.Size = new Size(94, 29);
+            btnSaveLog.Size = new Size(118, 36);
             btnSaveLog.TabIndex = 2;
             btnSaveLog.Text = "保存";
             btnSaveLog.UseVisualStyleBackColor = true;
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(540, 411);
+            btnExit.Location = new Point(675, 514);
+            btnExit.Margin = new Padding(4);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(94, 29);
+            btnExit.Size = new Size(118, 36);
             btnExit.TabIndex = 3;
             btnExit.Text = "戻る";
             btnExit.UseVisualStyleBackColor = true;
+            btnExit.Click += btnExit_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 15);
+            label1.Location = new Point(15, 19);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(69, 20);
+            label1.Size = new Size(84, 25);
             label1.TabIndex = 4;
             label1.Text = "履歴一覧";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(699, 342);
+            label2.Location = new Point(874, 428);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(76, 20);
+            label2.Size = new Size(92, 25);
             label2.TabIndex = 5;
             label2.Text = "入力待ち…";
             // 
             // lstChatHistory
             // 
             lstChatHistory.FormattingEnabled = true;
-            lstChatHistory.Location = new Point(12, 38);
+            lstChatHistory.ItemHeight = 25;
+            lstChatHistory.Location = new Point(15, 48);
+            lstChatHistory.Margin = new Padding(4);
             lstChatHistory.Name = "lstChatHistory";
-            lstChatHistory.Size = new Size(151, 324);
+            lstChatHistory.Size = new Size(188, 404);
             lstChatHistory.TabIndex = 6;
             // 
             // rtbChatLog
             // 
-            rtbChatLog.Location = new Point(183, 38);
+            rtbChatLog.Location = new Point(229, 48);
+            rtbChatLog.Margin = new Padding(4);
             rtbChatLog.Name = "rtbChatLog";
-            rtbChatLog.Size = new Size(510, 326);
+            rtbChatLog.Size = new Size(636, 406);
             rtbChatLog.TabIndex = 7;
             rtbChatLog.Text = "";
             // 
             // txtUserInput
             // 
-            txtUserInput.Location = new Point(183, 371);
+            txtUserInput.Location = new Point(229, 464);
+            txtUserInput.Margin = new Padding(4);
             txtUserInput.Name = "txtUserInput";
-            txtUserInput.Size = new Size(220, 27);
+            txtUserInput.Size = new Size(274, 31);
             txtUserInput.TabIndex = 8;
             // 
             // cmbChatMode
             // 
             cmbChatMode.FormattingEnabled = true;
-            cmbChatMode.Location = new Point(183, 411);
+            cmbChatMode.Location = new Point(229, 514);
+            cmbChatMode.Margin = new Padding(4);
             cmbChatMode.Name = "cmbChatMode";
-            cmbChatMode.Size = new Size(151, 28);
+            cmbChatMode.Size = new Size(188, 33);
             cmbChatMode.TabIndex = 9;
             // 
             // ChatBot
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1000, 562);
             Controls.Add(cmbChatMode);
             Controls.Add(txtUserInput);
             Controls.Add(rtbChatLog);
@@ -140,8 +152,10 @@
             Controls.Add(btnSaveLog);
             Controls.Add(btnClear);
             Controls.Add(btnSend);
+            Margin = new Padding(4);
             Name = "ChatBot";
             Text = "ChatBot";
+            Load += ChatBot_Load;
             ResumeLayout(false);
             PerformLayout();
         }
