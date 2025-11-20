@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,54 @@ namespace 聞いて_相槌マシーン
 {
     public partial class ChatBot : Form
     {
-        public ChatBot()
+        public string CurrentUser { get; set; }
+        public string SelectedVoice { get; set; }
+        public string SelectedTone { get; set; }
+
+        private VoiceForm voiceForm;
+
+        // コンストラクターで VoiceForm を受け取る
+        public ChatBot(VoiceForm vf)
         {
             InitializeComponent();
+            voiceForm = vf; // これで null にならなくなる
+        }
+
+        private WaveInEvent waveIn;
+        private System.Timers.Timer silenceCheckTimer;
+        private System.Timers.Timer responseDelayTimer;
+        private WaveOutEvent waveOut;
+        private AudioFileReader audioReader;
+
+        private void StopListening()
+        {
+            waveIn?.StopRecording();
+            waveIn?.Dispose();
+            waveIn = null;
+
+            silenceCheckTimer?.Stop();
+            silenceCheckTimer?.Dispose();
+            silenceCheckTimer = null;
+
+            responseDelayTimer?.Stop();
+            responseDelayTimer?.Dispose();
+            responseDelayTimer = null;
+
+            waveOut?.Stop();
+            waveOut?.Dispose();
+            audioReader?.Dispose();
+        }
+
+        private void ChatBot_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            StopListening();
+            voiceForm.Show();
+            this.Hide();
         }
     }
 }
