@@ -60,7 +60,7 @@ namespace 聞いて_相槌マシーン
             }
 
             // 音声のベースフォルダ
-            string baseFolder = @"C:\Users\osiky\source\repos\聞いて！相槌マシーン\聞いて！相槌マシーン\相槌";
+            string baseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
 
             // 選択された声が存在するか確認
             if (!voiceFolderMap.ContainsKey(SelectedVoice))
