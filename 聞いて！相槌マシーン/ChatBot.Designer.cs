@@ -49,6 +49,7 @@
             btnSend.TabIndex = 0;
             btnSend.Text = "送信";
             btnSend.UseVisualStyleBackColor = true;
+            btnSend.Click += btnSend_Click;
             // 
             // btnClear
             // 
@@ -59,6 +60,7 @@
             btnClear.TabIndex = 1;
             btnClear.Text = "クリア";
             btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
             // btnSaveLog
             // 
@@ -69,6 +71,7 @@
             btnSaveLog.TabIndex = 2;
             btnSaveLog.Text = "保存";
             btnSaveLog.UseVisualStyleBackColor = true;
+            btnSaveLog.Click += btnSaveLog_Click;
             // 
             // btnExit
             // 
@@ -110,6 +113,7 @@
             lstChatHistory.Name = "lstChatHistory";
             lstChatHistory.Size = new Size(188, 404);
             lstChatHistory.TabIndex = 6;
+            lstChatHistory.SelectedIndexChanged += lstChatHistory_SelectedIndexChanged;
             // 
             // rtbChatLog
             // 
@@ -119,6 +123,7 @@
             rtbChatLog.Size = new Size(636, 406);
             rtbChatLog.TabIndex = 7;
             rtbChatLog.Text = "";
+            rtbChatLog.TextChanged += rtbChatLog_TextChanged;
             // 
             // txtUserInput
             // 
@@ -127,6 +132,7 @@
             txtUserInput.Name = "txtUserInput";
             txtUserInput.Size = new Size(274, 31);
             txtUserInput.TabIndex = 8;
+            txtUserInput.TextChanged += txtUserInput_TextChanged;
             // 
             // cmbChatMode
             // 
@@ -136,6 +142,7 @@
             cmbChatMode.Name = "cmbChatMode";
             cmbChatMode.Size = new Size(188, 33);
             cmbChatMode.TabIndex = 9;
+            cmbChatMode.SelectedIndexChanged += cmbChatMode_SelectedIndexChanged;
             // 
             // ChatBot
             // 

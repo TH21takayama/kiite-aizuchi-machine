@@ -62,5 +62,50 @@ namespace 聞いて_相槌マシーン
             voiceForm.Show();
             this.Hide();
         }
+
+        private void rtbChatLog_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstChatHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtUserInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            // TextBox の入力を取得してトリム
+            string userText = txtUserInput.Text.Trim();
+
+            // 空なら何もしない
+            if (string.IsNullOrEmpty(userText)) return;
+
+            // RichTextBox に表示（ユーザーの発言）
+            rtbChatLog.AppendText($"あなた: {userText}\n");
+
+            // TextBox をクリア
+            txtUserInput.Clear();
+        }
+
+        private void cmbChatMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSaveLog_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
