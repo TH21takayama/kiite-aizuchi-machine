@@ -103,6 +103,7 @@
             Voice.Size = new Size(55, 25);
             Voice.TabIndex = 5;
             Voice.Text = "音声-";
+            Voice.Click += Voice_Click;
             // 
             // lstChatHistory
             // 
