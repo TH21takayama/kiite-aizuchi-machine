@@ -112,7 +112,7 @@ namespace 聞いて_相槌マシーン
         // ランダムで相槌を選んで再生・表示
         private void PlayRandomAizuchi()
         {
-            string basePath = @"C:\Users\osiky\source\repos\聞いて！相槌マシーン\聞いて！相槌マシーン\相槌";
+            string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
 
             // 音声・会話スタイルが未選択の場合は何もしない
             if (string.IsNullOrEmpty(SelectedVoice) || cmbChatMode.SelectedItem == null) return;
