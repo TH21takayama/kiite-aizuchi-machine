@@ -109,7 +109,7 @@ namespace 聞いて_相槌マシーン
             DBHelper.SaveUserSettings(currentUser, selectedVoice, selectedTone, true, true);
 
             // ChatBot に VoiceForm のインスタンスを渡す
-            ChatBot chatBotForm = new ChatBot(this)
+            ChatBot chatBotForm = new ChatBot(this, selectedVoice, selectedTone)
             {
                 CurrentUser = currentUser,
                 SelectedVoice = selectedVoice,
