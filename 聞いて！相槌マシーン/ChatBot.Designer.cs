@@ -33,7 +33,7 @@
             btnSaveLog = new Button();
             btnExit = new Button();
             label1 = new Label();
-            label2 = new Label();
+            Voice = new Label();
             lstChatHistory = new ListBox();
             rtbChatLog = new RichTextBox();
             txtUserInput = new TextBox();
@@ -94,15 +94,15 @@
             label1.TabIndex = 4;
             label1.Text = "履歴一覧";
             // 
-            // label2
+            // Voice
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(874, 428);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(92, 25);
-            label2.TabIndex = 5;
-            label2.Text = "入力待ち…";
+            Voice.AutoSize = true;
+            Voice.Location = new Point(229, 9);
+            Voice.Margin = new Padding(4, 0, 4, 0);
+            Voice.Name = "Voice";
+            Voice.Size = new Size(55, 25);
+            Voice.TabIndex = 5;
+            Voice.Text = "音声-";
             // 
             // lstChatHistory
             // 
@@ -153,7 +153,7 @@
             Controls.Add(txtUserInput);
             Controls.Add(rtbChatLog);
             Controls.Add(lstChatHistory);
-            Controls.Add(label2);
+            Controls.Add(Voice);
             Controls.Add(label1);
             Controls.Add(btnExit);
             Controls.Add(btnSaveLog);
@@ -174,7 +174,7 @@
         private Button btnSaveLog;
         private Button btnExit;
         private Label label1;
-        private Label label2;
+        private Label Voice;
         private ListBox lstChatHistory;
         private RichTextBox rtbChatLog;
         private TextBox txtUserInput;
