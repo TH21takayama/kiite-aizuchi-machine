@@ -74,6 +74,7 @@ namespace 聞いて_相槌マシーン
                 {"男性B","相槌_中谷"}
             };
 
+
             if (!voiceFolderMap.ContainsKey(SelectedVoice))
                 return;
 
@@ -81,6 +82,9 @@ namespace 聞いて_相槌マシーン
 
             if (!Directory.Exists(voiceFolder))
                 return;
+
+            // 音声ラベルに選択された声を表示
+            Voice.Text = "音声-" + SelectedVoice;
 
             // 会話スタイルはサブフォルダ名
             string[] styleFolders = Directory.GetDirectories(voiceFolder);
@@ -98,6 +102,7 @@ namespace 聞いて_相槌マシーン
             {
                 cmbChatMode.SelectedIndex = 0;
             }
+
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -148,6 +153,11 @@ namespace 聞いて_相槌マシーン
         }
 
         private void btnSaveLog_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Voice_Click(object sender, EventArgs e)
         {
 
         }
