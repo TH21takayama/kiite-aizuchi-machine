@@ -20,10 +20,14 @@ namespace 聞いて_相槌マシーン
         private VoiceForm voiceForm;
 
         // コンストラクターで VoiceForm を受け取る
-        public ChatBot(VoiceForm vf)
+        public ChatBot(VoiceForm vf, string selectedVoice, string selectedTone)
         {
             InitializeComponent();
             voiceForm = vf; // これで null にならなくなる
+
+            // VoiceFormで選択された値を受け取る
+            SelectedVoice = selectedVoice;
+            SelectedTone = selectedTone;
         }
 
         private WaveInEvent waveIn;
@@ -53,7 +57,47 @@ namespace 聞いて_相槌マシーン
 
         private void ChatBot_Load(object sender, EventArgs e)
         {
+            // まずは選択された声を取得
+            if (string.IsNullOrEmpty(SelectedVoice))
+            {
+                MessageBox.Show("音声が選択されていません。");
+                return;
+            }
 
+            // 音声フォルダのパス
+            string baseFolder = @"C:\Users\osiky\source\repos\聞いて！相槌マシーン\聞いて！相槌マシーン\相槌";
+            Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
+            {
+                {"女性A","相槌_母"},
+                {"女性B","相槌_高山"},
+                {"男性A","相槌_倉橋"},
+                {"男性B","相槌_中谷"}
+            };
+
+            if (!voiceFolderMap.ContainsKey(SelectedVoice))
+                return;
+
+            string voiceFolder = Path.Combine(baseFolder, voiceFolderMap[SelectedVoice]);
+
+            if (!Directory.Exists(voiceFolder))
+                return;
+
+            // 会話スタイルはサブフォルダ名
+            string[] styleFolders = Directory.GetDirectories(voiceFolder);
+            List<string> chatModes = styleFolders.Select(f => Path.GetFileName(f)).ToList();
+
+            cmbChatMode.Items.Clear();
+            cmbChatMode.Items.AddRange(chatModes.ToArray());
+
+            // 初期選択は SelectedTone
+            if (!string.IsNullOrEmpty(SelectedTone) && chatModes.Contains(SelectedTone))
+            {
+                cmbChatMode.SelectedItem = SelectedTone;
+            }
+            else if (chatModes.Count > 0)
+            {
+                cmbChatMode.SelectedIndex = 0;
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
