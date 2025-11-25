@@ -38,6 +38,7 @@
             rtbChatLog = new RichTextBox();
             txtUserInput = new TextBox();
             cmbChatMode = new ComboBox();
+            btnVoice = new Button();
             SuspendLayout();
             // 
             // btnSend
@@ -145,11 +146,22 @@
             cmbChatMode.TabIndex = 9;
             cmbChatMode.SelectedIndexChanged += cmbChatMode_SelectedIndexChanged;
             // 
+            // btnVoice
+            // 
+            btnVoice.Location = new Point(753, 4);
+            btnVoice.Name = "btnVoice";
+            btnVoice.Size = new Size(112, 34);
+            btnVoice.TabIndex = 10;
+            btnVoice.Text = "音声オフ";
+            btnVoice.UseVisualStyleBackColor = true;
+            btnVoice.Click += btnVoice_Click;
+            // 
             // ChatBot
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1000, 562);
+            Controls.Add(btnVoice);
             Controls.Add(cmbChatMode);
             Controls.Add(txtUserInput);
             Controls.Add(rtbChatLog);
@@ -180,5 +192,6 @@
         private RichTextBox rtbChatLog;
         private TextBox txtUserInput;
         private ComboBox cmbChatMode;
+        private Button btnVoice;
     }
 }
