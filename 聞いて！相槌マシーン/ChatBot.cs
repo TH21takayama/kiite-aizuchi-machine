@@ -114,49 +114,56 @@ namespace 聞いて_相槌マシーン
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
 
-            // 音声・会話スタイルが未選択の場合は何もしない
-            if (string.IsNullOrEmpty(SelectedVoice) || cmbChatMode.SelectedItem == null) return;
+            // 音声または会話スタイルが未選択なら中断
+            if (string.IsNullOrEmpty(SelectedVoice) || string.IsNullOrEmpty(SelectedTone))
+                return;
 
-            // 選択された声のフォルダ名をvoiceFolderMapから取得
-            if (!voiceFolderMap.TryGetValue(SelectedVoice, out string voiceFolderName)) return;
+            // 声フォルダを取得
+            if (!voiceFolderMap.TryGetValue(SelectedVoice, out string voiceFolderName))
+                return;
 
-            // フォルダパス作成（声フォルダ + 会話スタイル）
-            string styleFolder = Path.Combine(basePath, voiceFolderName, cmbChatMode.SelectedItem.ToString());
-            if (!Directory.Exists(styleFolder)) return;
+            // ➤ SelectedTone を参照する
+            string styleFolder = Path.Combine(basePath, voiceFolderName, SelectedTone);
+            if (!Directory.Exists(styleFolder))
+                return;
 
-            // wavファイルを取得
+            // wav を取得
             string[] wavFiles = Directory.GetFiles(styleFolder, "*.wav");
             if (wavFiles.Length == 0) return;
 
-            // ランダムに1つ選択
+            // ランダム選択
             Random rnd = new Random();
             string selectedFile = wavFiles[rnd.Next(wavFiles.Length)];
 
-            // 前回の再生を停止
+            // 前の再生停止
             waveOut?.Stop();
             waveOut?.Dispose();
             audioReader?.Dispose();
 
-            // 音声再生
             audioReader = new AudioFileReader(selectedFile);
             waveOut = new WaveOutEvent();
             waveOut.Init(audioReader);
             waveOut.Play();
 
-            // ファイル名から番号＋アンダースコアを削除して字幕用に整形
-            string subtitle = Path.GetFileNameWithoutExtension(selectedFile);
-            subtitle = Regex.Replace(subtitle, @"^\d+_", "");
+            // 字幕用整形
+            string subtitle = Regex.Replace(Path.GetFileNameWithoutExtension(selectedFile), @"^\d+_", "");
 
-            // UIスレッドでRichTextBoxに表示
+            // 表示
             this.Invoke(new Action(() =>
             {
                 rtbChatLog.AppendText("相槌: " + subtitle + Environment.NewLine);
             }));
         }
 
-        private void cmbChatMode_SelectedIndexChanged(object sender, EventArgs e) 
+        // cmbChatMode の選択が変わったとき
+        private void cmbChatMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-        
+            if (cmbChatMode.SelectedItem != null)
+            {
+                // 選択された会話スタイルを SelectedTone に反映
+                SelectedTone = cmbChatMode.SelectedItem.ToString();
+
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
