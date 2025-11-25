@@ -39,6 +39,19 @@ namespace 聞いて_相槌マシーン
             voiceForm = vf; // VoiceFormの参照
             SelectedVoice = selectedVoice; // 選択された音声
             SelectedTone = selectedTone;   // 選択された会話スタイル
+
+            // Enterキーで送信できるようにする
+            txtUserInput.KeyDown += TxtUserInput_KeyDown;
+        }
+
+        // KeyDownイベントの処理
+        private void TxtUserInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // 改行やビープ音を防ぐ
+                btnSend.PerformClick();     // 送信ボタン押下と同じ動作
+            }
         }
 
         // 音声再生・タイマーなどのリソース解放
