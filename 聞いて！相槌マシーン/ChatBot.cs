@@ -191,8 +191,11 @@ namespace 聞いて_相槌マシーン
         }
 
         private void btnClear_Click(object sender, EventArgs e) 
-        { 
-        
+        {
+            rtbChatLog.Clear(); // RichTextBoxの中身をすべてクリア
+            //スクロールの位置もリセット
+            rtbChatLog.SelectionStart = 0;
+            rtbChatLog.ScrollToCaret();
         }
 
         private void btnSaveLog_Click(object sender, EventArgs e) 
