@@ -22,6 +22,9 @@ namespace 聞いて_相槌マシーン
         private WaveOutEvent waveOut;
         private AudioFileReader audioReader;
 
+        // 音声オン/オフフラグ
+        private bool isVoiceOn = true;
+
         // 音声フォルダのマップ（女性A・B、男性A・B → 実際のフォルダ名）
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
@@ -131,41 +134,36 @@ namespace 聞いて_相槌マシーン
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
 
-            // 音声または会話スタイルが未選択なら中断
             if (string.IsNullOrEmpty(SelectedVoice) || string.IsNullOrEmpty(SelectedTone))
                 return;
 
-            // 声フォルダを取得
             if (!voiceFolderMap.TryGetValue(SelectedVoice, out string voiceFolderName))
                 return;
 
-            // ➤ SelectedTone を参照する
             string styleFolder = Path.Combine(basePath, voiceFolderName, SelectedTone);
             if (!Directory.Exists(styleFolder))
                 return;
 
-            // wav を取得
             string[] wavFiles = Directory.GetFiles(styleFolder, "*.wav");
             if (wavFiles.Length == 0) return;
 
-            // ランダム選択
             Random rnd = new Random();
             string selectedFile = wavFiles[rnd.Next(wavFiles.Length)];
 
-            // 前の再生停止
-            waveOut?.Stop();
-            waveOut?.Dispose();
-            audioReader?.Dispose();
+            // 音声オンの場合のみ再生
+            if (isVoiceOn)
+            {
+                waveOut?.Stop();
+                waveOut?.Dispose();
+                audioReader?.Dispose();
 
-            audioReader = new AudioFileReader(selectedFile);
-            waveOut = new WaveOutEvent();
-            waveOut.Init(audioReader);
-            waveOut.Play();
+                audioReader = new AudioFileReader(selectedFile);
+                waveOut = new WaveOutEvent();
+                waveOut.Init(audioReader);
+                waveOut.Play();
+            }
 
-            // 字幕用整形
             string subtitle = Regex.Replace(Path.GetFileNameWithoutExtension(selectedFile), @"^\d+_", "");
-
-            // 表示
             this.Invoke(new Action(() =>
             {
                 rtbChatLog.AppendText("相槌: " + subtitle + Environment.NewLine);
@@ -190,7 +188,7 @@ namespace 聞いて_相槌マシーン
             this.Hide();
         }
 
-        private void btnClear_Click(object sender, EventArgs e) 
+        private void btnClear_Click(object sender, EventArgs e)
         {
             rtbChatLog.Clear(); // RichTextBoxの中身をすべてクリア
             //スクロールの位置もリセット
@@ -198,29 +196,45 @@ namespace 聞いて_相槌マシーン
             rtbChatLog.ScrollToCaret();
         }
 
-        private void btnSaveLog_Click(object sender, EventArgs e) 
+        private void btnSaveLog_Click(object sender, EventArgs e)
         {
-        
+
         }
 
-        private void rtbChatLog_TextChanged(object sender, EventArgs e) 
+        private void rtbChatLog_TextChanged(object sender, EventArgs e)
         {
-        
+
         }
 
-        private void lstChatHistory_SelectedIndexChanged(object sender, EventArgs e) 
+        private void lstChatHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
-        
+
         }
 
-        private void txtUserInput_TextChanged(object sender, EventArgs e) 
+        private void txtUserInput_TextChanged(object sender, EventArgs e)
         {
-        
+
         }
 
-        private void Voice_Click(object sender, EventArgs e) 
+        private void Voice_Click(object sender, EventArgs e)
         {
-        
+
+        }
+
+        // 音声オン/オフ切り替え
+        private void btnVoice_Click(object sender, EventArgs e)
+        {
+            isVoiceOn = !isVoiceOn;
+
+            if (isVoiceOn)
+            {
+                btnVoice.Text = "音声オフ";
+            }
+            else
+            {
+                btnVoice.Text = "音声オン";
+                waveOut?.Stop(); // 再生中の音声を停止
+            }
         }
     }
 }
