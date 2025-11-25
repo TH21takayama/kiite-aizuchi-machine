@@ -93,7 +93,7 @@ namespace 聞いて_相槌マシーン
             VoiceLabel.Text = $"音声：{SelectedVoice}";
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             UserLabel.Text = $"ユーザー：{currentUser}";
-            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
+            JimakuSwitch.Text = isJimakuOn ? "字幕オフ" : "字幕オン";
 
             characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
         }
@@ -213,25 +213,29 @@ namespace 聞いて_相槌マシーン
                 {
                     bubbleText.Text = subtitle;
 
-                    // フォーム左端からキャラクター左端までの幅に固定
-                    int panelWidth = characterPictureBox.Left - 10; // キャラに被らないように余白10px
+                    int tailWidth = 20;
+                    int tailHeight = 20;
+
+                    // フォーム左端からキャラクター左端までの幅に固定（吹き出し本体）
+                    int panelWidth = characterPictureBox.Left - 10;
                     if (panelWidth < 50) panelWidth = 50;
 
                     // 高さはキャラの高さに合わせる
                     int panelHeight = characterPictureBox.Height / 2;
-                    if (panelHeight > this.ClientSize.Height - 20) // フォーム上下には余白10pxずつ
-                        panelHeight = this.ClientSize.Height - 20;
+                    if (panelHeight > this.ClientSize.Height - 30)
+                        panelHeight = this.ClientSize.Height - 30;
 
-                    speechBubblePanel.Size = new Size(panelWidth, panelHeight);
+                    // パネル全体のサイズは吹き出し本体＋しっぽ分
+                    speechBubblePanel.Size = new Size(panelWidth + tailWidth, panelHeight + tailHeight);
 
-                    bubbleText.MaximumSize = new Size(panelWidth - 10, panelHeight - 10); // 余白10px
+                    bubbleText.MaximumSize = new Size(panelWidth - 10, panelHeight - 10);
                     bubbleText.AutoSize = false;
                     bubbleText.Dock = DockStyle.Fill;
                     bubbleText.TextAlign = ContentAlignment.MiddleCenter;
 
-                    // 吹き出し位置を調整
-                    int x = 10; // 左端から10px
-                    int y = characterPictureBox.Top + characterPictureBox.Height - panelHeight; // キャラの下に合わせる
+                    // パネル位置をキャラの下に表示（しっぽ分を上に空ける）
+                    int x = 10;
+                    int y = characterPictureBox.Top + characterPictureBox.Height - panelHeight - tailHeight;
                     speechBubblePanel.Location = new Point(x, y);
 
                     speechBubblePanel.Visible = true;
@@ -276,7 +280,11 @@ namespace 聞いて_相槌マシーン
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Rectangle rect = new Rectangle(0, 0, speechBubblePanel.Width - 1, speechBubblePanel.Height - 1);
+            int tailWidth = 20;
+            int tailHeight = 20;
+
+            // 吹き出し本体の矩形（しっぽ分を除く）
+            Rectangle rect = new Rectangle(0, 0, speechBubblePanel.Width - tailWidth - 1, speechBubblePanel.Height - tailHeight - 1);
 
             using (GraphicsPath path = new GraphicsPath())
             {
@@ -295,12 +303,13 @@ namespace 聞いて_相槌マシーン
                 }
             }
 
-            // 吹き出しのしっぽ
+            // しっぽを描画（右下に向ける）
             Point[] tail = {
-                new Point(rect.Right, rect.Bottom / 2),
-                new Point(rect.Right + 20, rect.Bottom / 2 + 10),
-                new Point(rect.Right, rect.Bottom / 2 + 20)
+                new Point(rect.Right, rect.Bottom - rect.Height / 4),
+                new Point(rect.Right + tailWidth, rect.Bottom - rect.Height / 4 + tailHeight / 2),
+                new Point(rect.Right, rect.Bottom - rect.Height / 4 + tailHeight)
             };
+
             g.FillPolygon(Brushes.White, tail);
             g.DrawPolygon(Pens.Gray, tail);
         }
@@ -308,7 +317,7 @@ namespace 聞いて_相槌マシーン
         private void JimakuSwitch_Click(object sender, EventArgs e)
         {
             isJimakuOn = !isJimakuOn;
-            JimakuSwitch.Text = isJimakuOn ? "字幕OFF" : "字幕ON";
+            JimakuSwitch.Text = isJimakuOn ? "字幕オフ" : "字幕オン";
             if (!isJimakuOn) speechBubblePanel.Visible = false;
             DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
         }
@@ -335,6 +344,52 @@ namespace 聞いて_相槌マシーン
             ToneLabel.Text = $"スタイル：{SelectedTone}";
             bubbleText.Text = "";
             speechBubblePanel.Visible = false;
+        }
+
+        private void characterSwitch_Click(object sender, EventArgs e)
+        {
+            // ON/OFF切り替え
+            isImageOn = !isImageOn;
+
+            // ボタンのテキストを変更
+            characterSwitch.Text = isImageOn ? "キャラ絵オフ" : "キャラ絵オン";
+
+            // OFFならキャラ絵を非表示
+            if (!isImageOn)
+            {
+                characterPictureBox.Image = null;
+            }
+            else
+            {
+                // ONに戻した場合、画像を再表示（フォルダからランダム選択）
+                if (Directory.Exists(characterImageFolder))
+                {
+                    string[] imageFiles = Directory.GetFiles(characterImageFolder, "*.png")
+                        .Concat(Directory.GetFiles(characterImageFolder, "*.jpg")).ToArray();
+
+                    if (imageFiles.Length > 0)
+                    {
+                        int imgIndex = random.Next(imageFiles.Length);
+                        string imgPath = imageFiles[imgIndex];
+
+                        try
+                        {
+                            using (FileStream fs = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
+                            {
+                                Image img = Image.FromStream(fs);
+                                characterPictureBox.Image = img;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("画像読み込みエラー: " + ex.Message);
+                        }
+                    }
+                }
+            }
+
+            // DBに状態を保存
+            DBHelper.SaveUserSettings(currentUser, SelectedVoice, SelectedTone, isJimakuOn, isImageOn);
         }
     }
 }

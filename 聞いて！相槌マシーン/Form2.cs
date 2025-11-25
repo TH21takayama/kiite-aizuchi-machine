@@ -88,5 +88,36 @@ namespace 聞いて_相槌マシーン
         {
 
         }
+
+        private void chatbutton_Click(object sender, EventArgs e)
+        {
+            string selectedVoice = VoiceBox.Text.Trim();
+            string selectedTone = ToneBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(selectedVoice) || !VoiceBox.Items.Contains(selectedVoice))
+            {
+                MessageBox.Show("声を正しく選んでください。");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(selectedTone) || !ToneBox.Items.Contains(selectedTone))
+            {
+                MessageBox.Show("会話スタイルを正しく選んでください。");
+                return;
+            }
+
+            DBHelper.SaveUserSettings(currentUser, selectedVoice, selectedTone, true, true);
+
+            // ChatBot に VoiceForm のインスタンスを渡す
+            ChatBot chatBotForm = new ChatBot(this, selectedVoice, selectedTone)
+            {
+                CurrentUser = currentUser,
+                SelectedVoice = selectedVoice,
+                SelectedTone = selectedTone
+            };
+
+            chatBotForm.Show();
+            this.Hide();
+        }
     }
 }
