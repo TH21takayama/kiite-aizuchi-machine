@@ -101,6 +101,10 @@ namespace 聞いて_相槌マシーン
             // RichTextBoxにユーザー発言を表示
             rtbChatLog.AppendText($"あなた: {userText}\n");
 
+            // 最新行までスクロール
+            rtbChatLog.SelectionStart = rtbChatLog.Text.Length;
+            rtbChatLog.ScrollToCaret();
+
             // TextBoxをクリア
             txtUserInput.Clear();
 
