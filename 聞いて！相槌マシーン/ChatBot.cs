@@ -112,7 +112,7 @@ namespace 聞いて_相槌マシーン
             if (string.IsNullOrEmpty(userText)) return;
 
             // RichTextBoxにユーザー発言を表示
-            rtbChatLog.AppendText($"あなた: {userText}\n");
+            rtbChatLog.AppendText($"{CurrentUser}: {userText}\n");
 
             // 最新行までスクロール
             rtbChatLog.SelectionStart = rtbChatLog.Text.Length;
