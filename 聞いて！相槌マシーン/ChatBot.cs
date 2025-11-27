@@ -141,10 +141,14 @@ namespace 聞いて_相槌マシーン
                 return;
 
             string styleFolder = Path.Combine(basePath, voiceFolderName, SelectedTone);
+            //MessageBox.Show(styleFolder); 参照してるファイル確認用
             if (!Directory.Exists(styleFolder))
                 return;
 
-            string[] wavFiles = Directory.GetFiles(styleFolder, "*.wav");
+            string[] wavFiles = Directory.GetFiles(styleFolder)
+            .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
+            .ToArray();
+
             if (wavFiles.Length == 0) return;
 
             Random rnd = new Random();

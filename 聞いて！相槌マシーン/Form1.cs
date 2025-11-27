@@ -188,7 +188,9 @@ namespace 聞いて_相槌マシーン
             string styleFolder = Path.Combine(baseFolder, voiceFolderName, SelectedTone);
             if (!Directory.Exists(styleFolder)) return;
 
-            string[] voiceFiles = Directory.GetFiles(styleFolder, "*.wav");
+            string[] voiceFiles = Directory.GetFiles(styleFolder)
+            .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
+            .ToArray();
             if (voiceFiles.Length == 0) return;
 
             int index = random.Next(voiceFiles.Length);
