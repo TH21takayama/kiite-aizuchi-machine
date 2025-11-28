@@ -105,6 +105,16 @@ namespace 聞いて_相槌マシーン
             {
                 cmbChatMode.SelectedIndex = 0; // デフォルトは最初のスタイル
             }
+
+            // チャット履歴読み込み（ユーザーごと）
+            string userFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatLogs", CurrentUser);
+            Directory.CreateDirectory(userFolder);
+
+            string[] files = Directory.GetFiles(userFolder, "*.txt");
+            foreach (string f in files)
+            {
+                lstChatHistory.Items.Add(Path.GetFileNameWithoutExtension(f));
+            }
         }
 
         // 送信ボタン押下時
@@ -202,7 +212,39 @@ namespace 聞いて_相槌マシーン
 
         private void btnSaveLog_Click(object sender, EventArgs e)
         {
+            // ①チャット内容が空なら保存しない
+            if (string.IsNullOrWhiteSpace(rtbChatLog.Text))
+            {
+                MessageBox.Show("保存するチャットがありません。");
+                return;
+            }
 
+            // ②ユーザーにファイル名を入力させる
+            string fileName = Microsoft.VisualBasic.Interaction.InputBox(
+                "保存する名前を入力してください（例：今日の会話）",
+                "名前を付けて保存",
+                "");
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                MessageBox.Show("保存がキャンセルされました。");
+                return;
+            }
+
+            // ③保存フォルダ（ユーザーごと）
+            string userFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatLogs", CurrentUser);
+            Directory.CreateDirectory(userFolder);
+
+            // ④ファイルのフルパス
+            string fullPath = Path.Combine(userFolder, fileName + ".txt");
+
+            // ⑤ファイルに書き込む
+            File.WriteAllText(fullPath, rtbChatLog.Text);
+
+            // ⑥ListBox に名前を追加
+            lstChatHistory.Items.Add(fileName);
+
+            MessageBox.Show("保存しました！");
         }
 
         private void rtbChatLog_TextChanged(object sender, EventArgs e)
@@ -212,7 +254,16 @@ namespace 聞いて_相槌マシーン
 
         private void lstChatHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (lstChatHistory.SelectedItem == null) return;
 
+            string fileName = lstChatHistory.SelectedItem.ToString();
+            string userFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatLogs", CurrentUser);
+            string fullPath = Path.Combine(userFolder, fileName + ".txt");
+
+            if (File.Exists(fullPath))
+            {
+                rtbChatLog.Text = File.ReadAllText(fullPath);
+            }
         }
 
         private void txtUserInput_TextChanged(object sender, EventArgs e)
