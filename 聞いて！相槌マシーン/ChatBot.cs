@@ -170,7 +170,7 @@ namespace 聞いて_相槌マシーン
             string subtitle = Regex.Replace(Path.GetFileNameWithoutExtension(selectedFile), @"^\d+_", "");
             this.Invoke(new Action(() =>
             {
-                rtbChatLog.AppendText("相槌: " + subtitle + Environment.NewLine);
+                rtbChatLog.AppendText(SelectedVoice +": " + subtitle + Environment.NewLine);
             }));
         }
 
