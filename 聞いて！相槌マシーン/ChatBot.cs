@@ -212,37 +212,54 @@ namespace 聞いて_相槌マシーン
 
         private void btnSaveLog_Click(object sender, EventArgs e)
         {
-            // ①チャット内容が空なら保存しない
+            // チャットが空なら保存しない
             if (string.IsNullOrWhiteSpace(rtbChatLog.Text))
             {
                 MessageBox.Show("保存するチャットがありません。");
                 return;
             }
 
-            // ②ユーザーにファイル名を入力させる
-            string fileName = Microsoft.VisualBasic.Interaction.InputBox(
-                "保存する名前を入力してください（例：今日の会話）",
-                "名前を付けて保存",
-                "");
-
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                MessageBox.Show("保存がキャンセルされました。");
-                return;
-            }
-
-            // ③保存フォルダ（ユーザーごと）
             string userFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatLogs", CurrentUser);
             Directory.CreateDirectory(userFolder);
 
-            // ④ファイルのフルパス
-            string fullPath = Path.Combine(userFolder, fileName + ".txt");
+            string fileName = "";
+            bool overwrite = false;
 
-            // ⑤ファイルに書き込む
+            if (lstChatHistory.SelectedItem != null)
+            {
+                // 既に選択されている履歴を上書きする場合
+                fileName = lstChatHistory.SelectedItem.ToString();
+                var result = MessageBox.Show($"{fileName} に上書きしますか？", "確認", MessageBoxButtons.YesNoCancel);
+
+                if (result == DialogResult.Cancel)
+                    return;
+                else if (result == DialogResult.No)
+                    overwrite = false; // 新しい名前で保存する
+                else
+                    overwrite = true; // 上書き
+            }
+
+            if (!overwrite)
+            {
+                // 新しい名前をユーザーに入力させる
+                fileName = Microsoft.VisualBasic.Interaction.InputBox(
+                    "保存する名前を入力してください",
+                    "名前を付けて保存",
+                    "");
+
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    MessageBox.Show("保存がキャンセルされました。");
+                    return;
+                }
+            }
+
+            string fullPath = Path.Combine(userFolder, fileName + ".txt");
             File.WriteAllText(fullPath, rtbChatLog.Text);
 
-            // ⑥ListBox に名前を追加
-            lstChatHistory.Items.Add(fileName);
+            // ListBoxにない場合は追加
+            if (!lstChatHistory.Items.Contains(fileName))
+                lstChatHistory.Items.Add(fileName);
 
             MessageBox.Show("保存しました！");
         }
