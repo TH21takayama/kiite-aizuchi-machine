@@ -22,6 +22,9 @@ namespace 聞いて_相槌マシーン
         private WaveOutEvent waveOut;
         private AudioFileReader audioReader;
 
+        // 音声オン/オフフラグ
+        private bool isVoiceOn = true;
+
         // 音声フォルダのマップ（女性A・B、男性A・B → 実際のフォルダ名）
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
@@ -102,6 +105,16 @@ namespace 聞いて_相槌マシーン
             {
                 cmbChatMode.SelectedIndex = 0; // デフォルトは最初のスタイル
             }
+
+            // チャット履歴読み込み（ユーザーごと）
+            string userFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatLogs", CurrentUser);
+            Directory.CreateDirectory(userFolder);
+
+            string[] files = Directory.GetFiles(userFolder, "*.txt");
+            foreach (string f in files)
+            {
+                lstChatHistory.Items.Add(Path.GetFileNameWithoutExtension(f));
+            }
         }
 
         // 送信ボタン押下時
@@ -131,44 +144,43 @@ namespace 聞いて_相槌マシーン
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
 
-            // 音声または会話スタイルが未選択なら中断
             if (string.IsNullOrEmpty(SelectedVoice) || string.IsNullOrEmpty(SelectedTone))
                 return;
 
-            // 声フォルダを取得
             if (!voiceFolderMap.TryGetValue(SelectedVoice, out string voiceFolderName))
                 return;
 
-            // ➤ SelectedTone を参照する
             string styleFolder = Path.Combine(basePath, voiceFolderName, SelectedTone);
+            //MessageBox.Show(styleFolder); 参照してるファイル確認用
             if (!Directory.Exists(styleFolder))
                 return;
 
-            // wav を取得
-            string[] wavFiles = Directory.GetFiles(styleFolder, "*.wav");
+            string[] wavFiles = Directory.GetFiles(styleFolder)
+            .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
+            .ToArray();
+
             if (wavFiles.Length == 0) return;
 
-            // ランダム選択
             Random rnd = new Random();
             string selectedFile = wavFiles[rnd.Next(wavFiles.Length)];
 
-            // 前の再生停止
-            waveOut?.Stop();
-            waveOut?.Dispose();
-            audioReader?.Dispose();
+            // 音声オンの場合のみ再生
+            if (isVoiceOn)
+            {
+                waveOut?.Stop();
+                waveOut?.Dispose();
+                audioReader?.Dispose();
 
-            audioReader = new AudioFileReader(selectedFile);
-            waveOut = new WaveOutEvent();
-            waveOut.Init(audioReader);
-            waveOut.Play();
+                audioReader = new AudioFileReader(selectedFile);
+                waveOut = new WaveOutEvent();
+                waveOut.Init(audioReader);
+                waveOut.Play();
+            }
 
-            // 字幕用整形
             string subtitle = Regex.Replace(Path.GetFileNameWithoutExtension(selectedFile), @"^\d+_", "");
-
-            // 表示
             this.Invoke(new Action(() =>
             {
-                rtbChatLog.AppendText("相槌: " + subtitle + Environment.NewLine);
+                rtbChatLog.AppendText(SelectedVoice +": " + subtitle + Environment.NewLine);
             }));
         }
 
@@ -190,7 +202,7 @@ namespace 聞いて_相槌マシーン
             this.Hide();
         }
 
-        private void btnClear_Click(object sender, EventArgs e) 
+        private void btnClear_Click(object sender, EventArgs e)
         {
             rtbChatLog.Clear(); // RichTextBoxの中身をすべてクリア
             //スクロールの位置もリセット
@@ -198,29 +210,103 @@ namespace 聞いて_相槌マシーン
             rtbChatLog.ScrollToCaret();
         }
 
-        private void btnSaveLog_Click(object sender, EventArgs e) 
+        private void btnSaveLog_Click(object sender, EventArgs e)
         {
-        
+            // チャットが空なら保存しない
+            if (string.IsNullOrWhiteSpace(rtbChatLog.Text))
+            {
+                MessageBox.Show("保存するチャットがありません。");
+                return;
+            }
+
+            string userFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatLogs", CurrentUser);
+            Directory.CreateDirectory(userFolder);
+
+            string fileName = "";
+            bool overwrite = false;
+
+            if (lstChatHistory.SelectedItem != null)
+            {
+                // 既に選択されている履歴を上書きする場合
+                fileName = lstChatHistory.SelectedItem.ToString();
+                var result = MessageBox.Show($"{fileName} に上書きしますか？", "確認", MessageBoxButtons.YesNoCancel);
+
+                if (result == DialogResult.Cancel)
+                    return;
+                else if (result == DialogResult.No)
+                    overwrite = false; // 新しい名前で保存する
+                else
+                    overwrite = true; // 上書き
+            }
+
+            if (!overwrite)
+            {
+                // 新しい名前をユーザーに入力させる
+                fileName = Microsoft.VisualBasic.Interaction.InputBox(
+                    "保存する名前を入力してください",
+                    "名前を付けて保存",
+                    "");
+
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    MessageBox.Show("保存がキャンセルされました。");
+                    return;
+                }
+            }
+
+            string fullPath = Path.Combine(userFolder, fileName + ".txt");
+            File.WriteAllText(fullPath, rtbChatLog.Text);
+
+            // ListBoxにない場合は追加
+            if (!lstChatHistory.Items.Contains(fileName))
+                lstChatHistory.Items.Add(fileName);
+
+            MessageBox.Show("保存しました！");
         }
 
-        private void rtbChatLog_TextChanged(object sender, EventArgs e) 
+        private void rtbChatLog_TextChanged(object sender, EventArgs e)
         {
-        
+
         }
 
-        private void lstChatHistory_SelectedIndexChanged(object sender, EventArgs e) 
+        private void lstChatHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
-        
+            if (lstChatHistory.SelectedItem == null) return;
+
+            string fileName = lstChatHistory.SelectedItem.ToString();
+            string userFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatLogs", CurrentUser);
+            string fullPath = Path.Combine(userFolder, fileName + ".txt");
+
+            if (File.Exists(fullPath))
+            {
+                rtbChatLog.Text = File.ReadAllText(fullPath);
+            }
         }
 
-        private void txtUserInput_TextChanged(object sender, EventArgs e) 
+        private void txtUserInput_TextChanged(object sender, EventArgs e)
         {
-        
+
         }
 
-        private void Voice_Click(object sender, EventArgs e) 
+        private void Voice_Click(object sender, EventArgs e)
         {
-        
+
+        }
+
+        // 音声オン/オフ切り替え
+        private void btnVoice_Click(object sender, EventArgs e)
+        {
+            isVoiceOn = !isVoiceOn;
+
+            if (isVoiceOn)
+            {
+                btnVoice.Text = "音声オフ";
+            }
+            else
+            {
+                btnVoice.Text = "音声オン";
+                waveOut?.Stop(); // 再生中の音声を停止
+            }
         }
     }
 }

@@ -24,6 +24,18 @@ public static class DBHelper
             {
                 cmd.ExecuteNonQuery();
             }
+
+            string createChatLogsTable = @"CREATE TABLE IF NOT EXISTS ChatLogs (
+                                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                            Username TEXT,
+                                            FileName TEXT,
+                                            FilePath TEXT,
+                                            SavedAt TEXT
+                              )";
+            using (var cmd = new SQLiteCommand(createChatLogsTable, conn))
+            {
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 
@@ -141,5 +153,24 @@ public static class DBHelper
             }
         }
         return ("", "", true, true); // デフォルト値
+    }
+
+    //チャットの保存用メソッド
+    public static void SaveChatLog(string username, string fileName, string filePath)
+    {
+        using (var conn = new SQLiteConnection(dbPath))
+        {
+            conn.Open();
+            string query = @"INSERT INTO ChatLogs (Username, FileName, FilePath, SavedAt)
+                         VALUES (@u, @f, @p, @s)";
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@u", username);
+                cmd.Parameters.AddWithValue("@f", fileName);
+                cmd.Parameters.AddWithValue("@p", filePath);
+                cmd.Parameters.AddWithValue("@s", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
