@@ -96,6 +96,33 @@ namespace 聞いて_相槌マシーン
             JimakuSwitch.Text = isJimakuOn ? "字幕オフ" : "字幕オン";
 
             characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
+            // 最初から画像を表示
+            if (Directory.Exists(characterImageFolder))
+            {
+                string[] imageFiles = Directory.GetFiles(characterImageFolder, "*.png")
+                    .Concat(Directory.GetFiles(characterImageFolder, "*.jpg")).ToArray();
+
+                if (imageFiles.Length > 0)
+                {
+                    int imgIndex = random.Next(imageFiles.Length);
+                    string imgPath = imageFiles[imgIndex];
+
+                    try
+                    {
+                        using (FileStream fs = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
+                        {
+                            Image img = Image.FromStream(fs);
+                            // PictureBox に直接表示するためコピーを作る
+                            characterPictureBox.Image = new Bitmap(img);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("画像読み込みエラー: " + ex.Message);
+                    }
+                }
+            }
         }
 
         private void Start_Click(object sender, EventArgs e)
