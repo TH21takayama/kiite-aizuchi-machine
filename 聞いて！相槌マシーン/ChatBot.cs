@@ -180,7 +180,21 @@ namespace 聞いて_相槌マシーン
             string subtitle = Regex.Replace(Path.GetFileNameWithoutExtension(selectedFile), @"^\d+_", "");
             this.Invoke(new Action(() =>
             {
-                rtbChatLog.AppendText(SelectedVoice +": " + subtitle + Environment.NewLine);
+                // --- ランダムアイコンを PictureBox に表示 ---
+                string iconFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\キャラアイコン");
+                string[] icons = Directory.GetFiles(iconFolder, "*.png");
+                if (icons.Length > 0)
+                {
+                    string iconFile = icons[rnd.Next(icons.Length)];
+                    using (var img = Image.FromFile(iconFile))
+                    {
+                        // PictureBox に表示するサイズにリサイズ
+                        CharaIcon.Image = new Bitmap(img, CharaIcon.Width, CharaIcon.Height);
+                    }
+                }
+
+                // 相槌テキストを RichTextBox に表示
+                rtbChatLog.AppendText(SelectedVoice + ": " + subtitle + Environment.NewLine);
             }));
         }
 

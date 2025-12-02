@@ -39,6 +39,8 @@
             txtUserInput = new TextBox();
             cmbChatMode = new ComboBox();
             btnVoice = new Button();
+            CharaIcon = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)CharaIcon).BeginInit();
             SuspendLayout();
             // 
             // btnSend
@@ -113,7 +115,7 @@
             lstChatHistory.Location = new Point(15, 48);
             lstChatHistory.Margin = new Padding(4);
             lstChatHistory.Name = "lstChatHistory";
-            lstChatHistory.Size = new Size(188, 404);
+            lstChatHistory.Size = new Size(188, 229);
             lstChatHistory.TabIndex = 6;
             lstChatHistory.SelectedIndexChanged += lstChatHistory_SelectedIndexChanged;
             // 
@@ -156,11 +158,20 @@
             btnVoice.UseVisualStyleBackColor = true;
             btnVoice.Click += btnVoice_Click;
             // 
+            // CharaIcon
+            // 
+            CharaIcon.Location = new Point(15, 299);
+            CharaIcon.Name = "CharaIcon";
+            CharaIcon.Size = new Size(188, 179);
+            CharaIcon.TabIndex = 11;
+            CharaIcon.TabStop = false;
+            // 
             // ChatBot
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1000, 562);
+            Controls.Add(CharaIcon);
             Controls.Add(btnVoice);
             Controls.Add(cmbChatMode);
             Controls.Add(txtUserInput);
@@ -176,6 +187,7 @@
             Name = "ChatBot";
             Text = "ChatBot";
             Load += ChatBot_Load;
+            ((System.ComponentModel.ISupportInitialize)CharaIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -193,5 +205,6 @@
         private TextBox txtUserInput;
         private ComboBox cmbChatMode;
         private Button btnVoice;
+        private PictureBox CharaIcon;
     }
 }
