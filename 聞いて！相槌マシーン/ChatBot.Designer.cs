@@ -40,6 +40,7 @@
             cmbChatMode = new ComboBox();
             btnVoice = new Button();
             CharaIcon = new PictureBox();
+            btnChara = new Button();
             ((System.ComponentModel.ISupportInitialize)CharaIcon).BeginInit();
             SuspendLayout();
             // 
@@ -150,7 +151,7 @@
             // 
             // btnVoice
             // 
-            btnVoice.Location = new Point(753, 4);
+            btnVoice.Location = new Point(876, 9);
             btnVoice.Name = "btnVoice";
             btnVoice.Size = new Size(112, 34);
             btnVoice.TabIndex = 10;
@@ -166,11 +167,22 @@
             CharaIcon.TabIndex = 11;
             CharaIcon.TabStop = false;
             // 
+            // btnChara
+            // 
+            btnChara.Location = new Point(876, 62);
+            btnChara.Name = "btnChara";
+            btnChara.Size = new Size(112, 34);
+            btnChara.TabIndex = 12;
+            btnChara.Text = "イラストオフ";
+            btnChara.UseVisualStyleBackColor = true;
+            btnChara.Click += btnChara_Click;
+            // 
             // ChatBot
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1000, 562);
+            Controls.Add(btnChara);
             Controls.Add(CharaIcon);
             Controls.Add(btnVoice);
             Controls.Add(cmbChatMode);
@@ -206,5 +218,6 @@
         private ComboBox cmbChatMode;
         private Button btnVoice;
         private PictureBox CharaIcon;
+        private Button btnChara;
     }
 }
