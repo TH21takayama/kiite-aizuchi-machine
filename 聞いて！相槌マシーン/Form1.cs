@@ -52,6 +52,8 @@ namespace 聞いて_相槌マシーン
         //相槌のフラグ
         private bool isPlaying = false;
 
+        // ユーザーが話すまで相槌を打たない
+        private bool waitForUserVoice = true;
 
         public MainForm(VoiceForm vf, string username)
         {
@@ -196,15 +198,26 @@ namespace 聞いて_相槌マシーン
             {
                 lastVoiceTime = DateTime.Now;
             }
+
+            if (rms > 0.07f)
+            {
+                lastVoiceTime = DateTime.Now;
+
+                // ユーザーが話した → 次の無音で相槌OKに
+                waitForUserVoice = false;
+            }
         }
 
         private void CheckSilence(object sender, ElapsedEventArgs e)
         {
-            // 相槌の最小間隔を守る
+            // ユーザーが話すまでは相槌を禁止
+            if (waitForUserVoice) return;
+
+            // 最小間隔
             if ((DateTime.Now - lastResponseTime).TotalMilliseconds < minIntervalMs)
                 return;
 
-            // 無音判定（最後に音があった時間から1秒以上）
+            // 無音判定
             if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 1000)
             {
                 if (responseDelayTimer == null || !responseDelayTimer.Enabled)
@@ -218,11 +231,11 @@ namespace 聞いて_相槌マシーン
 
                         PlayRandomVoiceAndImage();
 
-                        // 相槌を打った時間を更新
                         lastResponseTime = DateTime.Now;
-
-                        // 無音開始時間も更新して、連続で出ないようにする
                         lastVoiceTime = DateTime.Now;
+
+                        // 💡相槌を出したので、次はユーザーが話すまで無音を無視する！
+                        waitForUserVoice = true;
                     };
                     responseDelayTimer.AutoReset = false;
                     responseDelayTimer.Start();
