@@ -55,6 +55,9 @@ namespace 聞いて_相槌マシーン
         // ユーザーが話すまで相槌を打たない
         private bool waitForUserVoice = true;
 
+        //音声認識中のフラグ
+        private bool isUserSpeaking = false;
+
         public MainForm(VoiceForm vf, string username)
         {
             InitializeComponent();
@@ -197,6 +200,29 @@ namespace 聞いて_相槌マシーン
             if (rms > 0.02f)
             {
                 lastVoiceTime = DateTime.Now;
+                waitForUserVoice = false;
+
+                // ★ ユーザーが話している → ボタン点灯
+                if (!isUserSpeaking)
+                {
+                    isUserSpeaking = true;
+                    Invoke(new Action(() =>
+                    {
+                        Start.BackColor = Color.LightGreen;  // 点灯色（お好みで変更可）
+                    }));
+                }
+            }
+            else
+            {
+                // ★ 音が小さくなったら = 話していない
+                if (isUserSpeaking && (DateTime.Now - lastVoiceTime).TotalMilliseconds > 200)
+                {
+                    isUserSpeaking = false;
+                    Invoke(new Action(() =>
+                    {
+                        Start.BackColor = SystemColors.Control; // 元に戻す
+                    }));
+                }
             }
 
             if (rms > 0.07f)
