@@ -39,6 +39,9 @@
             txtUserInput = new TextBox();
             cmbChatMode = new ComboBox();
             btnVoice = new Button();
+            CharaIcon = new PictureBox();
+            btnChara = new Button();
+            ((System.ComponentModel.ISupportInitialize)CharaIcon).BeginInit();
             SuspendLayout();
             // 
             // btnSend
@@ -113,7 +116,7 @@
             lstChatHistory.Location = new Point(15, 48);
             lstChatHistory.Margin = new Padding(4);
             lstChatHistory.Name = "lstChatHistory";
-            lstChatHistory.Size = new Size(188, 404);
+            lstChatHistory.Size = new Size(188, 229);
             lstChatHistory.TabIndex = 6;
             lstChatHistory.SelectedIndexChanged += lstChatHistory_SelectedIndexChanged;
             // 
@@ -148,7 +151,7 @@
             // 
             // btnVoice
             // 
-            btnVoice.Location = new Point(753, 4);
+            btnVoice.Location = new Point(876, 9);
             btnVoice.Name = "btnVoice";
             btnVoice.Size = new Size(112, 34);
             btnVoice.TabIndex = 10;
@@ -156,11 +159,31 @@
             btnVoice.UseVisualStyleBackColor = true;
             btnVoice.Click += btnVoice_Click;
             // 
+            // CharaIcon
+            // 
+            CharaIcon.Location = new Point(15, 299);
+            CharaIcon.Name = "CharaIcon";
+            CharaIcon.Size = new Size(188, 179);
+            CharaIcon.TabIndex = 11;
+            CharaIcon.TabStop = false;
+            // 
+            // btnChara
+            // 
+            btnChara.Location = new Point(876, 62);
+            btnChara.Name = "btnChara";
+            btnChara.Size = new Size(112, 34);
+            btnChara.TabIndex = 12;
+            btnChara.Text = "イラストオフ";
+            btnChara.UseVisualStyleBackColor = true;
+            btnChara.Click += btnChara_Click;
+            // 
             // ChatBot
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1000, 562);
+            Controls.Add(btnChara);
+            Controls.Add(CharaIcon);
             Controls.Add(btnVoice);
             Controls.Add(cmbChatMode);
             Controls.Add(txtUserInput);
@@ -176,6 +199,7 @@
             Name = "ChatBot";
             Text = "ChatBot";
             Load += ChatBot_Load;
+            ((System.ComponentModel.ISupportInitialize)CharaIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -193,5 +217,7 @@
         private TextBox txtUserInput;
         private ComboBox cmbChatMode;
         private Button btnVoice;
+        private PictureBox CharaIcon;
+        private Button btnChara;
     }
 }

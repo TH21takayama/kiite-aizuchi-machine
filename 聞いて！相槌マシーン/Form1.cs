@@ -44,6 +44,17 @@ namespace 聞いて_相槌マシーン
         private Panel speechBubblePanel;
         private Label bubbleText;
 
+        // 最後に相槌を打った時間
+        private DateTime lastResponseTime = DateTime.MinValue; 
+        // 相槌の最小間隔（2秒など）
+        private int minIntervalMs = 2000;
+
+        //相槌のフラグ
+        private bool isPlaying = false;
+
+        // ユーザーが話すまで相槌を打たない
+        private bool waitForUserVoice = true;
+
         public MainForm(VoiceForm vf, string username)
         {
             InitializeComponent();
@@ -96,6 +107,33 @@ namespace 聞いて_相槌マシーン
             JimakuSwitch.Text = isJimakuOn ? "字幕オフ" : "字幕オン";
 
             characterPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
+            // 最初から画像を表示
+            if (Directory.Exists(characterImageFolder))
+            {
+                string[] imageFiles = Directory.GetFiles(characterImageFolder, "*.png")
+                    .Concat(Directory.GetFiles(characterImageFolder, "*.jpg")).ToArray();
+
+                if (imageFiles.Length > 0)
+                {
+                    int imgIndex = random.Next(imageFiles.Length);
+                    string imgPath = imageFiles[imgIndex];
+
+                    try
+                    {
+                        using (FileStream fs = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
+                        {
+                            Image img = Image.FromStream(fs);
+                            // PictureBox に直接表示するためコピーを作る
+                            characterPictureBox.Image = new Bitmap(img);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("画像読み込みエラー: " + ex.Message);
+                    }
+                }
+            }
         }
 
         private void Start_Click(object sender, EventArgs e)
@@ -160,38 +198,67 @@ namespace 聞いて_相槌マシーン
             {
                 lastVoiceTime = DateTime.Now;
             }
+
+            if (rms > 0.07f)
+            {
+                lastVoiceTime = DateTime.Now;
+
+                // ユーザーが話した → 次の無音で相槌OKに
+                waitForUserVoice = false;
+            }
         }
 
         private void CheckSilence(object sender, ElapsedEventArgs e)
         {
+            // ユーザーが話すまでは相槌を禁止
+            if (waitForUserVoice) return;
+
+            // 最小間隔
+            if ((DateTime.Now - lastResponseTime).TotalMilliseconds < minIntervalMs)
+                return;
+
+            // 無音判定
             if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 1000)
             {
-                silenceCheckTimer.Stop();
-
-                responseDelayTimer = new System.Timers.Timer(500);
-                responseDelayTimer.Elapsed += (s, args) =>
+                if (responseDelayTimer == null || !responseDelayTimer.Enabled)
                 {
-                    responseDelayTimer.Stop();
-                    PlayRandomVoiceAndImage();
-                    lastVoiceTime = DateTime.Now;
-                };
-                responseDelayTimer.Start();
+                    responseDelayTimer = new System.Timers.Timer(500);
+                    responseDelayTimer.Elapsed += (s, args) =>
+                    {
+                        responseDelayTimer.Stop();
+                        responseDelayTimer.Dispose();
+                        responseDelayTimer = null;
+
+                        PlayRandomVoiceAndImage();
+
+                        lastResponseTime = DateTime.Now;
+                        lastVoiceTime = DateTime.Now;
+
+                        // 💡相槌を出したので、次はユーザーが話すまで無音を無視する！
+                        waitForUserVoice = true;
+                    };
+                    responseDelayTimer.AutoReset = false;
+                    responseDelayTimer.Start();
+                }
             }
         }
 
         private void PlayRandomVoiceAndImage()
         {
+            if (isPlaying) return; // 再生中なら何もしない
+            isPlaying = true;
+
             string baseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
-            if (!voiceFolderMap.ContainsKey(SelectedVoice)) return;
+            if (!voiceFolderMap.ContainsKey(SelectedVoice)) { isPlaying = false; return; }
 
             string voiceFolderName = voiceFolderMap[SelectedVoice];
             string styleFolder = Path.Combine(baseFolder, voiceFolderName, SelectedTone);
-            if (!Directory.Exists(styleFolder)) return;
+            if (!Directory.Exists(styleFolder)) { isPlaying = false; return; }
 
             string[] voiceFiles = Directory.GetFiles(styleFolder)
-            .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
-            .ToArray();
-            if (voiceFiles.Length == 0) return;
+                .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
+                .ToArray();
+            if (voiceFiles.Length == 0) { isPlaying = false; return; }
 
             int index = random.Next(voiceFiles.Length);
             string clipPath = voiceFiles[index];
@@ -203,6 +270,17 @@ namespace 聞いて_相槌マシーン
             audioReader = new AudioFileReader(clipPath);
             waveOut = new WaveOutEvent();
             waveOut.Init(audioReader);
+
+            // 再生終了イベントでフラグを戻す
+            waveOut.PlaybackStopped += (s, e) =>
+            {
+                isPlaying = false;
+                waveOut.Dispose();
+                audioReader.Dispose();
+                waveOut = null;
+                audioReader = null;
+            };
+
             waveOut.Play();
 
             // ✅ 字幕から番号＋_を削除

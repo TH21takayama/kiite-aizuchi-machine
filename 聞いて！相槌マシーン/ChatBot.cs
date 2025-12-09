@@ -25,6 +25,9 @@ namespace 聞いて_相槌マシーン
         // 音声オン/オフフラグ
         private bool isVoiceOn = true;
 
+        //イラストオン/オフフラグ
+        private bool isImgeOn = true;
+
         // 音声フォルダのマップ（女性A・B、男性A・B → 実際のフォルダ名）
         private Dictionary<string, string> voiceFolderMap = new Dictionary<string, string>()
         {
@@ -115,6 +118,22 @@ namespace 聞いて_相槌マシーン
             {
                 lstChatHistory.Items.Add(Path.GetFileNameWithoutExtension(f));
             }
+
+            // 最初から画像を表示
+            if (isImgeOn)
+            {
+                string iconFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\キャラアイコン");
+                string[] icons = Directory.GetFiles(iconFolder, "*.png");
+                if (icons.Length > 0)
+                {
+                    Random rnd = new Random();
+                    string iconFile = icons[rnd.Next(icons.Length)];
+                    using (var img = Image.FromFile(iconFile))
+                    {
+                        CharaIcon.Image = new Bitmap(img, CharaIcon.Width, CharaIcon.Height);
+                    }
+                }
+            }
         }
 
         // 送信ボタン押下時
@@ -151,13 +170,12 @@ namespace 聞いて_相槌マシーン
                 return;
 
             string styleFolder = Path.Combine(basePath, voiceFolderName, SelectedTone);
-            //MessageBox.Show(styleFolder); 参照してるファイル確認用
             if (!Directory.Exists(styleFolder))
                 return;
 
             string[] wavFiles = Directory.GetFiles(styleFolder)
-            .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
-            .ToArray();
+                .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
+                .ToArray();
 
             if (wavFiles.Length == 0) return;
 
@@ -180,9 +198,26 @@ namespace 聞いて_相槌マシーン
             string subtitle = Regex.Replace(Path.GetFileNameWithoutExtension(selectedFile), @"^\d+_", "");
             this.Invoke(new Action(() =>
             {
-                rtbChatLog.AppendText(SelectedVoice +": " + subtitle + Environment.NewLine);
+                // --- イラスト表示オンのときだけ PictureBox に表示 ---
+                if (isImgeOn)
+                {
+                    string iconFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\キャラアイコン");
+                    string[] icons = Directory.GetFiles(iconFolder, "*.png");
+                    if (icons.Length > 0)
+                    {
+                        string iconFile = icons[rnd.Next(icons.Length)];
+                        using (var img = Image.FromFile(iconFile))
+                        {
+                            CharaIcon.Image = new Bitmap(img, CharaIcon.Width, CharaIcon.Height);
+                        }
+                    }
+                }
+
+                // 相槌テキストを RichTextBox に表示
+                rtbChatLog.AppendText(SelectedVoice + ": " + subtitle + Environment.NewLine);
             }));
         }
+
 
         // cmbChatMode の選択が変わったとき
         private void cmbChatMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -306,6 +341,34 @@ namespace 聞いて_相槌マシーン
             {
                 btnVoice.Text = "音声オン";
                 waveOut?.Stop(); // 再生中の音声を停止
+            }
+        }
+
+        private void btnChara_Click(object sender, EventArgs e)
+        {
+            isImgeOn = !isImgeOn;
+
+            if (isImgeOn)
+            {
+                btnChara.Text = "イラストオフ";
+                // ボタンを押した瞬間にランダム画像を表示
+                string iconFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\キャラアイコン");
+                string[] icons = Directory.GetFiles(iconFolder, "*.png");
+                if (icons.Length > 0)
+                {
+                    Random rnd = new Random();
+                    string iconFile = icons[rnd.Next(icons.Length)];
+                    using (var img = Image.FromFile(iconFile))
+                    {
+                        CharaIcon.Image = new Bitmap(img, CharaIcon.Width, CharaIcon.Height);
+                    }
+                }
+
+            }
+            else
+            {
+                btnChara.Text = "イラストオン";
+                CharaIcon.Image = null;
             }
         }
     }
