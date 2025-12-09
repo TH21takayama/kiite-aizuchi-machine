@@ -244,7 +244,7 @@ namespace 聞いて_相槌マシーン
                 return;
 
             // 無音判定
-            if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 1000)
+            if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 500)
             {
                 if (responseDelayTimer == null || !responseDelayTimer.Enabled)
                 {
