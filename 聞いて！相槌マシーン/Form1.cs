@@ -181,9 +181,6 @@ namespace 聞いて_相槌マシーン
             responseDelayTimer?.Dispose();
             responseDelayTimer = null;
 
-            waveOut?.Stop();
-            waveOut?.Dispose();
-            audioReader?.Dispose();
         }
 
         private void OnDataAvailable(object sender, WaveInEventArgs e)
@@ -244,7 +241,7 @@ namespace 聞いて_相槌マシーン
                 return;
 
             // 無音判定
-            if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 500)
+            if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 350)
             {
                 if (responseDelayTimer == null || !responseDelayTimer.Enabled)
                 {
