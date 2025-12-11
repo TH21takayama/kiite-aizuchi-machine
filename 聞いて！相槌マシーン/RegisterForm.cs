@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Windows.Forms;
 
 namespace 聞いて_相槌マシーン
@@ -14,6 +15,7 @@ namespace 聞いて_相槌マシーン
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
+            string confirmPassword = txtConfirmPassword.Text.Trim();
 
             // 入力チェック
             if (string.IsNullOrEmpty(username))
@@ -24,6 +26,16 @@ namespace 聞いて_相槌マシーン
             if (string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("パスワードを入力してください。");
+                return;
+            }
+            if (string.IsNullOrEmpty(confirmPassword))
+            {
+                MessageBox.Show("確認用パスワードを入力してください。");
+                return;
+            }
+            if (!string.Equals(password, confirmPassword))
+            {
+                MessageBox.Show("パスワードと確認用パスワードが一致しません。");
                 return;
             }
 
@@ -47,6 +59,16 @@ namespace 聞いて_相槌マシーン
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Hide();
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+            // 必要に応じてバリデーションなどを追加してください
+        }
+
+        private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
+        {
+            // 必要に応じてリアルタイムバリデーションなどを追加してください
         }
     }
 }
