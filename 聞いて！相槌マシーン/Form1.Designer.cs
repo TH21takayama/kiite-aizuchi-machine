@@ -126,7 +126,7 @@
             characterSwitch.Name = "characterSwitch";
             characterSwitch.Size = new Size(94, 29);
             characterSwitch.TabIndex = 11;
-            characterSwitch.Text = "キャラ絵オフ";
+            characterSwitch.Text = "イラストオフ";
             characterSwitch.UseVisualStyleBackColor = true;
             characterSwitch.Click += characterSwitch_Click;
             // 

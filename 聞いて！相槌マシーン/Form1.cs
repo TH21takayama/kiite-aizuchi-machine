@@ -455,7 +455,7 @@ namespace 聞いて_相槌マシーン
             isImageOn = !isImageOn;
 
             // ボタンのテキストを変更
-            characterSwitch.Text = isImageOn ? "キャラ絵オフ" : "キャラ絵オン";
+            characterSwitch.Text = isImageOn ? "イラストオフ" : "イラストオン";
 
             // OFFならキャラ絵を非表示
             if (!isImageOn)
