@@ -71,6 +71,13 @@ namespace 聞いて_相槌マシーン
         // フォームロード時の初期設定
         private void ChatBot_Load(object sender, EventArgs e)
         {
+            rtbChatLog.ReadOnly = true;
+            rtbChatLog.TabStop = false;
+
+            rtbChatLog.MouseDown += (s, ev) =>
+            {
+                txtUserInput.Focus();
+            };
             // 音声が選ばれていない場合は警告
             if (string.IsNullOrEmpty(SelectedVoice))
             {
