@@ -241,7 +241,7 @@ namespace 聞いて_相槌マシーン
                 return;
 
             // 無音判定
-            if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 350)
+            if ((DateTime.Now - lastVoiceTime).TotalMilliseconds > 355)
             {
                 if (responseDelayTimer == null || !responseDelayTimer.Enabled)
                 {
@@ -257,7 +257,7 @@ namespace 聞いて_相槌マシーン
                         lastResponseTime = DateTime.Now;
                         lastVoiceTime = DateTime.Now;
 
-                        // 💡相槌を出したので、次はユーザーが話すまで無音を無視する！
+                        //相槌を出したので、次はユーザーが話すまで無音を無視する
                         waitForUserVoice = true;
                     };
                     responseDelayTimer.AutoReset = false;

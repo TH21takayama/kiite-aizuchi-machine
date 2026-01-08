@@ -41,19 +41,19 @@
             // VoiceBox
             // 
             VoiceBox.FormattingEnabled = true;
-            VoiceBox.Location = new Point(175, 102);
+            VoiceBox.Location = new Point(140, 82);
             VoiceBox.Margin = new Padding(2);
             VoiceBox.Name = "VoiceBox";
-            VoiceBox.Size = new Size(442, 33);
+            VoiceBox.Size = new Size(354, 28);
             VoiceBox.TabIndex = 0;
             VoiceBox.Text = "声を選んでね";
             // 
             // Next
             // 
-            Next.Location = new Point(496, 308);
+            Next.Location = new Point(397, 246);
             Next.Margin = new Padding(2);
             Next.Name = "Next";
-            Next.Size = new Size(188, 62);
+            Next.Size = new Size(150, 50);
             Next.TabIndex = 1;
             Next.Text = "音声会話";
             Next.UseVisualStyleBackColor = true;
@@ -62,29 +62,28 @@
             // license
             // 
             license.AutoSize = true;
-            license.Location = new Point(12, 9);
+            license.Location = new Point(10, 7);
             license.Margin = new Padding(2, 0, 2, 0);
             license.Name = "license";
-            license.Size = new Size(268, 25);
+            license.Size = new Size(220, 20);
             license.TabIndex = 2;
             license.Text = "Voiced by https://CoeFont.cloud";
             // 
             // ToneBox
             // 
             ToneBox.FormattingEnabled = true;
-            ToneBox.Location = new Point(179, 208);
+            ToneBox.Location = new Point(143, 166);
             ToneBox.Margin = new Padding(2);
             ToneBox.Name = "ToneBox";
-            ToneBox.Size = new Size(442, 33);
+            ToneBox.Size = new Size(354, 28);
             ToneBox.TabIndex = 3;
             ToneBox.Text = "会話スタイルをえらんでね";
             // 
             // reset
             // 
-            reset.Location = new Point(656, 388);
-            reset.Margin = new Padding(4);
+            reset.Location = new Point(525, 310);
             reset.Name = "reset";
-            reset.Size = new Size(118, 36);
+            reset.Size = new Size(94, 29);
             reset.TabIndex = 4;
             reset.Text = "リセット";
             reset.UseVisualStyleBackColor = true;
@@ -92,10 +91,9 @@
             // 
             // buttonback
             // 
-            buttonback.Location = new Point(15, 388);
-            buttonback.Margin = new Padding(4);
+            buttonback.Location = new Point(12, 310);
             buttonback.Name = "buttonback";
-            buttonback.Size = new Size(118, 36);
+            buttonback.Size = new Size(94, 29);
             buttonback.TabIndex = 5;
             buttonback.Text = "戻る";
             buttonback.UseVisualStyleBackColor = true;
@@ -104,18 +102,18 @@
             // UserLabel
             // 
             UserLabel.AutoSize = true;
-            UserLabel.Location = new Point(15, 52);
-            UserLabel.Margin = new Padding(4, 0, 4, 0);
+            UserLabel.Location = new Point(12, 42);
             UserLabel.Name = "UserLabel";
-            UserLabel.Size = new Size(66, 25);
+            UserLabel.Size = new Size(53, 20);
             UserLabel.TabIndex = 6;
             UserLabel.Text = "ユーザー";
             // 
             // chatbutton
             // 
-            chatbutton.Location = new Point(107, 308);
+            chatbutton.Location = new Point(86, 246);
+            chatbutton.Margin = new Padding(2, 2, 2, 2);
             chatbutton.Name = "chatbutton";
-            chatbutton.Size = new Size(188, 62);
+            chatbutton.Size = new Size(150, 50);
             chatbutton.TabIndex = 7;
             chatbutton.Text = "チャット";
             chatbutton.UseVisualStyleBackColor = true;
@@ -123,9 +121,9 @@
             // 
             // VoiceForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(640, 360);
             Controls.Add(chatbutton);
             Controls.Add(UserLabel);
             Controls.Add(buttonback);
