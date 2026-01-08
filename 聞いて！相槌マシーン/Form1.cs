@@ -222,7 +222,7 @@ namespace 聞いて_相槌マシーン
                 }
             }
 
-            if (rms > 0.07f)
+            if (rms > 0.05f)
             {
                 lastVoiceTime = DateTime.Now;
 
