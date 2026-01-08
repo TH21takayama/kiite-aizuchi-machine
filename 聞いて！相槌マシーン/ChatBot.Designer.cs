@@ -119,6 +119,11 @@
             rtbChatLog.Size = new Size(510, 326);
             rtbChatLog.TabIndex = 7;
             rtbChatLog.Text = "";
+            rtbChatLog.ReadOnly = true;
+            rtbChatLog.TabStop = false;
+
+            rtbChatLog.TextChanged += rtbChatLog_TextChanged;
+
             rtbChatLog.TextChanged += rtbChatLog_TextChanged;
             // 
             // txtUserInput
