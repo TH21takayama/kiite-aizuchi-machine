@@ -24,6 +24,8 @@ namespace 聞いて_相槌マシーン
         private bool isVoiceOn = true;
         private bool isImageOn = true;
 
+        private string currentLogName = null; // ★ 現在のログ名
+
         private Dictionary<string, string> voiceFolderMap = new()
         {
             {"女性A","相槌_母"},
@@ -50,7 +52,7 @@ namespace 聞いて_相槌マシーン
             btnSend.Click += btnSend_Click;
             btnSaveLog.Click += btnSaveLog_Click;
             btnClear.Click += btnClear_Click;
-            btnExit.Click += btnExit_Click;   // ★ これが無かったのが原因
+            btnExit.Click += btnExit_Click;
 
             lstChatHistory.SelectedIndexChanged += lstChatHistory_SelectedIndexChanged;
 
@@ -173,6 +175,7 @@ namespace 聞いて_相槌マシーン
         private void btnClear_Click(object sender, EventArgs e)
         {
             rtbChatLog.Clear();
+            currentLogName = null;
         }
 
         private void btnSaveLog_Click(object sender, EventArgs e)
@@ -188,9 +191,30 @@ namespace 聞いて_相槌マシーン
                 "ChatLogs",
                 CurrentUser
             );
-
             Directory.CreateDirectory(folder);
 
+            // ★ 上書き保存
+            if (!string.IsNullOrEmpty(currentLogName))
+            {
+                var result = MessageBox.Show(
+                    "このログを上書き保存しますか？",
+                    "上書き確認",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    File.WriteAllText(
+                        Path.Combine(folder, currentLogName + ".txt"),
+                        rtbChatLog.Text
+                    );
+                    MessageBox.Show("上書き保存しました");
+                }
+                return;
+            }
+
+            // ★ 新規保存
             string name = Microsoft.VisualBasic.Interaction.InputBox(
                 "保存名を入力してください",
                 "ログ保存",
@@ -200,6 +224,8 @@ namespace 聞いて_相槌マシーン
             if (string.IsNullOrWhiteSpace(name)) return;
 
             File.WriteAllText(Path.Combine(folder, name + ".txt"), rtbChatLog.Text);
+
+            currentLogName = name;
 
             if (!lstChatHistory.Items.Contains(name))
                 lstChatHistory.Items.Add(name);
@@ -211,11 +237,13 @@ namespace 聞いて_相槌マシーン
         {
             if (lstChatHistory.SelectedItem == null) return;
 
+            currentLogName = lstChatHistory.SelectedItem.ToString();
+
             string path = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "ChatLogs",
                 CurrentUser,
-                lstChatHistory.SelectedItem + ".txt"
+                currentLogName + ".txt"
             );
 
             if (File.Exists(path))
@@ -245,7 +273,7 @@ namespace 聞いて_相槌マシーン
             audioReader?.Dispose();
 
             voiceForm.Show();
-            Close();   // ★ HideではなくClose
+            Close();
         }
 
         private void ChatBot_FormClosing(object sender, FormClosingEventArgs e)
