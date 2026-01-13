@@ -40,7 +40,6 @@ namespace 聞いて_相槌マシーン
             SelectedVoice = selectedVoice;
             SelectedTone = selectedTone;
 
-            // ★ ユーザー未設定対策
             if (string.IsNullOrWhiteSpace(CurrentUser))
                 CurrentUser = "default_user";
 
@@ -49,7 +48,6 @@ namespace 聞いて_相槌マシーン
 
         private void ChatBot_Load(object sender, EventArgs e)
         {
-            // ===== 強制イベント接続 =====
             btnSaveLog.Click += btnSaveLog_Click;
             btnClear.Click += btnClear_Click;
             lstChatHistory.SelectedIndexChanged += lstChatHistory_SelectedIndexChanged;
@@ -83,9 +81,6 @@ namespace 聞いて_相槌マシーン
             cmbChatMode.SelectedItem = SelectedTone ?? cmbChatMode.Items[0];
         }
 
-        // ===============================
-        // 入力
-        // ===============================
         private void TxtUserInput_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -99,16 +94,21 @@ namespace 聞いて_相槌マシーン
         {
             if (string.IsNullOrWhiteSpace(txtUserInput.Text)) return;
 
-            rtbChatLog.AppendText($"{CurrentUser}: {txtUserInput.Text}\n");
+            AppendChat($"{CurrentUser}: {txtUserInput.Text}");
             txtUserInput.Clear();
 
             await Task.Delay(500);
             PlayRandomAizuchi();
         }
 
-        // ===============================
-        // 相槌
-        // ===============================
+        // ★ 共通表示処理（自動スクロール）
+        private void AppendChat(string text)
+        {
+            rtbChatLog.AppendText(text + Environment.NewLine);
+            rtbChatLog.SelectionStart = rtbChatLog.TextLength;
+            rtbChatLog.ScrollToCaret();
+        }
+
         private void PlayRandomAizuchi()
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
@@ -146,33 +146,23 @@ namespace 聞いて_相槌マシーン
                 }
             }
 
-            rtbChatLog.AppendText($"{SelectedVoice}: {subtitle}\n");
+            AppendChat($"{SelectedVoice}: {subtitle}");
         }
 
-        // ===============================
-        // メニュー
-        // ===============================
         private void 音声ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isVoiceOn = !isVoiceOn;
             音声ToolStripMenuItem.Checked = isVoiceOn;
-
-            if (!isVoiceOn)
-                waveOut?.Stop();
+            if (!isVoiceOn) waveOut?.Stop();
         }
 
         private void イラストToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isImgeOn = !isImgeOn;
             イラストToolStripMenuItem.Checked = isImgeOn;
-
-            if (!isImgeOn)
-                CharaIcon.Image = null;
+            if (!isImgeOn) CharaIcon.Image = null;
         }
 
-        // ===============================
-        // 保存・クリア・履歴
-        // ===============================
         private void btnClear_Click(object sender, EventArgs e)
         {
             rtbChatLog.Clear();
@@ -203,8 +193,7 @@ namespace 聞いて_相槌マシーン
 
             if (string.IsNullOrWhiteSpace(fileName)) return;
 
-            string path = Path.Combine(userFolder, fileName + ".txt");
-            File.WriteAllText(path, rtbChatLog.Text);
+            File.WriteAllText(Path.Combine(userFolder, fileName + ".txt"), rtbChatLog.Text);
 
             if (!lstChatHistory.Items.Contains(fileName))
                 lstChatHistory.Items.Add(fileName);
