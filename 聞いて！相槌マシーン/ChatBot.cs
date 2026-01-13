@@ -22,7 +22,7 @@ namespace 聞いて_相槌マシーン
         private AudioFileReader audioReader;
 
         private bool isVoiceOn = true;
-        private bool isImgeOn = true;
+        private bool isImageOn = true;
 
         private Dictionary<string, string> voiceFolderMap = new()
         {
@@ -39,17 +39,19 @@ namespace 聞いて_相槌マシーン
             voiceForm = vf;
             SelectedVoice = selectedVoice;
             SelectedTone = selectedTone;
-
-            if (string.IsNullOrWhiteSpace(CurrentUser))
-                CurrentUser = "default_user";
+            CurrentUser ??= "default_user";
 
             txtUserInput.KeyDown += TxtUserInput_KeyDown;
+            FormClosing += ChatBot_FormClosing;
         }
 
         private void ChatBot_Load(object sender, EventArgs e)
         {
+            btnSend.Click += btnSend_Click;
             btnSaveLog.Click += btnSaveLog_Click;
             btnClear.Click += btnClear_Click;
+            btnExit.Click += btnExit_Click;   // ★ これが無かったのが原因
+
             lstChatHistory.SelectedIndexChanged += lstChatHistory_SelectedIndexChanged;
 
             音声ToolStripMenuItem.Click += 音声ToolStripMenuItem_Click;
@@ -71,6 +73,8 @@ namespace 聞いて_相槌マシーン
         {
             string baseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
             string voiceFolder = Path.Combine(baseFolder, voiceFolderMap[SelectedVoice]);
+
+            if (!Directory.Exists(voiceFolder)) return;
 
             cmbChatMode.Items.Clear();
             cmbChatMode.Items.AddRange(
@@ -101,7 +105,6 @@ namespace 聞いて_相槌マシーン
             PlayRandomAizuchi();
         }
 
-        // ★ 共通表示処理（自動スクロール）
         private void AppendChat(string text)
         {
             rtbChatLog.AppendText(text + Environment.NewLine);
@@ -113,6 +116,8 @@ namespace 聞いて_相槌マシーン
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\相槌");
             string folder = Path.Combine(basePath, voiceFolderMap[SelectedVoice], SelectedTone);
+
+            if (!Directory.Exists(folder)) return;
 
             var files = Directory.GetFiles(folder)
                 .Where(f => f.EndsWith(".wav") || f.EndsWith(".mp3"))
@@ -134,15 +139,17 @@ namespace 聞いて_相槌マシーン
                 waveOut.Play();
             }
 
-            if (isImgeOn)
+            if (isImageOn)
             {
                 string iconFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\キャラアイコン");
-                var icons = Directory.GetFiles(iconFolder, "*.png");
-
-                if (icons.Length > 0)
+                if (Directory.Exists(iconFolder))
                 {
-                    using var img = Image.FromFile(icons[new Random().Next(icons.Length)]);
-                    CharaIcon.Image = new Bitmap(img, CharaIcon.Width, CharaIcon.Height);
+                    var icons = Directory.GetFiles(iconFolder, "*.png");
+                    if (icons.Length > 0)
+                    {
+                        using var img = Image.FromFile(icons[new Random().Next(icons.Length)]);
+                        CharaIcon.Image = new Bitmap(img, CharaIcon.Width, CharaIcon.Height);
+                    }
                 }
             }
 
@@ -158,15 +165,14 @@ namespace 聞いて_相槌マシーン
 
         private void イラストToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            isImgeOn = !isImgeOn;
-            イラストToolStripMenuItem.Checked = isImgeOn;
-            if (!isImgeOn) CharaIcon.Image = null;
+            isImageOn = !isImageOn;
+            イラストToolStripMenuItem.Checked = isImageOn;
+            if (!isImageOn) CharaIcon.Image = null;
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             rtbChatLog.Clear();
-            rtbChatLog.SelectionStart = 0;
         }
 
         private void btnSaveLog_Click(object sender, EventArgs e)
@@ -177,28 +183,28 @@ namespace 聞いて_相槌マシーン
                 return;
             }
 
-            string userFolder = Path.Combine(
+            string folder = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "ChatLogs",
                 CurrentUser
             );
 
-            Directory.CreateDirectory(userFolder);
+            Directory.CreateDirectory(folder);
 
-            string fileName = Microsoft.VisualBasic.Interaction.InputBox(
-                "保存する名前を入力してください",
-                "名前を付けて保存",
+            string name = Microsoft.VisualBasic.Interaction.InputBox(
+                "保存名を入力してください",
+                "ログ保存",
                 ""
             );
 
-            if (string.IsNullOrWhiteSpace(fileName)) return;
+            if (string.IsNullOrWhiteSpace(name)) return;
 
-            File.WriteAllText(Path.Combine(userFolder, fileName + ".txt"), rtbChatLog.Text);
+            File.WriteAllText(Path.Combine(folder, name + ".txt"), rtbChatLog.Text);
 
-            if (!lstChatHistory.Items.Contains(fileName))
-                lstChatHistory.Items.Add(fileName);
+            if (!lstChatHistory.Items.Contains(name))
+                lstChatHistory.Items.Add(name);
 
-            MessageBox.Show("保存しました！");
+            MessageBox.Show("保存しました");
         }
 
         private void lstChatHistory_SelectedIndexChanged(object sender, EventArgs e)
@@ -220,23 +226,33 @@ namespace 聞いて_相槌マシーン
         {
             lstChatHistory.Items.Clear();
 
-            string userFolder = Path.Combine(
+            string folder = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "ChatLogs",
                 CurrentUser
             );
 
-            if (!Directory.Exists(userFolder)) return;
+            if (!Directory.Exists(folder)) return;
 
-            foreach (var f in Directory.GetFiles(userFolder, "*.txt"))
+            foreach (var f in Directory.GetFiles(folder, "*.txt"))
                 lstChatHistory.Items.Add(Path.GetFileNameWithoutExtension(f));
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
             waveOut?.Stop();
+            waveOut?.Dispose();
+            audioReader?.Dispose();
+
             voiceForm.Show();
-            Hide();
+            Close();   // ★ HideではなくClose
+        }
+
+        private void ChatBot_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            waveOut?.Stop();
+            waveOut?.Dispose();
+            audioReader?.Dispose();
         }
     }
 }

@@ -83,7 +83,7 @@
             btnExit.TabIndex = 3;
             btnExit.Text = "戻る";
             btnExit.UseVisualStyleBackColor = true;
-            btnExit.Click += btnExit_Click;
+           // btnExit.Click += btnExit_Click;
             // 
             // label1
             // 
