@@ -38,10 +38,13 @@
             rtbChatLog = new RichTextBox();
             txtUserInput = new TextBox();
             cmbChatMode = new ComboBox();
-            btnVoice = new Button();
             CharaIcon = new PictureBox();
-            btnChara = new Button();
+            menuStrip1 = new MenuStrip();
+            メニュToolStripMenuItem = new ToolStripMenuItem();
+            イラストToolStripMenuItem = new ToolStripMenuItem();
+            音声ToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)CharaIcon).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // btnSend
@@ -62,7 +65,6 @@
             btnClear.TabIndex = 1;
             btnClear.Text = "クリア";
             btnClear.UseVisualStyleBackColor = true;
-            btnClear.Click += btnClear_Click;
             // 
             // btnSaveLog
             // 
@@ -72,7 +74,6 @@
             btnSaveLog.TabIndex = 2;
             btnSaveLog.Text = "保存";
             btnSaveLog.UseVisualStyleBackColor = true;
-            btnSaveLog.Click += btnSaveLog_Click;
             // 
             // btnExit
             // 
@@ -87,7 +88,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 15);
+            label1.Location = new Point(627, 38);
             label1.Name = "label1";
             label1.Size = new Size(69, 20);
             label1.TabIndex = 4;
@@ -101,30 +102,24 @@
             Voice.Size = new Size(45, 20);
             Voice.TabIndex = 5;
             Voice.Text = "音声-";
-            Voice.Click += Voice_Click;
             // 
             // lstChatHistory
             // 
             lstChatHistory.FormattingEnabled = true;
-            lstChatHistory.Location = new Point(12, 38);
+            lstChatHistory.Location = new Point(627, 86);
             lstChatHistory.Name = "lstChatHistory";
             lstChatHistory.Size = new Size(151, 184);
             lstChatHistory.TabIndex = 6;
-            lstChatHistory.SelectedIndexChanged += lstChatHistory_SelectedIndexChanged;
             // 
             // rtbChatLog
             // 
             rtbChatLog.Location = new Point(183, 38);
             rtbChatLog.Name = "rtbChatLog";
-            rtbChatLog.Size = new Size(510, 326);
-            rtbChatLog.TabIndex = 7;
-            rtbChatLog.Text = "";
             rtbChatLog.ReadOnly = true;
+            rtbChatLog.Size = new Size(415, 326);
+            rtbChatLog.TabIndex = 7;
             rtbChatLog.TabStop = false;
-
-            rtbChatLog.TextChanged += rtbChatLog_TextChanged;
-
-            rtbChatLog.TextChanged += rtbChatLog_TextChanged;
+            rtbChatLog.Text = "";
             // 
             // txtUserInput
             // 
@@ -132,7 +127,6 @@
             txtUserInput.Name = "txtUserInput";
             txtUserInput.Size = new Size(220, 27);
             txtUserInput.TabIndex = 8;
-            txtUserInput.TextChanged += txtUserInput_TextChanged;
             // 
             // cmbChatMode
             // 
@@ -141,47 +135,51 @@
             cmbChatMode.Name = "cmbChatMode";
             cmbChatMode.Size = new Size(151, 28);
             cmbChatMode.TabIndex = 9;
-            cmbChatMode.SelectedIndexChanged += cmbChatMode_SelectedIndexChanged;
-            // 
-            // btnVoice
-            // 
-            btnVoice.Location = new Point(701, 7);
-            btnVoice.Margin = new Padding(2, 2, 2, 2);
-            btnVoice.Name = "btnVoice";
-            btnVoice.Size = new Size(90, 27);
-            btnVoice.TabIndex = 10;
-            btnVoice.Text = "音声オフ";
-            btnVoice.UseVisualStyleBackColor = true;
-            btnVoice.Click += btnVoice_Click;
             // 
             // CharaIcon
             // 
             CharaIcon.Location = new Point(12, 239);
-            CharaIcon.Margin = new Padding(2, 2, 2, 2);
+            CharaIcon.Margin = new Padding(2);
             CharaIcon.Name = "CharaIcon";
             CharaIcon.Size = new Size(150, 143);
             CharaIcon.TabIndex = 11;
             CharaIcon.TabStop = false;
             // 
-            // btnChara
+            // menuStrip1
             // 
-            btnChara.Location = new Point(701, 50);
-            btnChara.Margin = new Padding(2, 2, 2, 2);
-            btnChara.Name = "btnChara";
-            btnChara.Size = new Size(90, 27);
-            btnChara.TabIndex = 12;
-            btnChara.Text = "イラストオフ";
-            btnChara.UseVisualStyleBackColor = true;
-            btnChara.Click += btnChara_Click;
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { メニュToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(800, 28);
+            menuStrip1.TabIndex = 13;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // メニュToolStripMenuItem
+            // 
+            メニュToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { イラストToolStripMenuItem, 音声ToolStripMenuItem });
+            メニュToolStripMenuItem.Name = "メニュToolStripMenuItem";
+            メニュToolStripMenuItem.Size = new Size(65, 24);
+            メニュToolStripMenuItem.Text = "メニュー";
+            // 
+            // イラストToolStripMenuItem
+            // 
+            イラストToolStripMenuItem.Name = "イラストToolStripMenuItem";
+            イラストToolStripMenuItem.Size = new Size(224, 26);
+            イラストToolStripMenuItem.Text = "イラスト";
+            // 
+            // 音声ToolStripMenuItem
+            // 
+            音声ToolStripMenuItem.Name = "音声ToolStripMenuItem";
+            音声ToolStripMenuItem.Size = new Size(224, 26);
+            音声ToolStripMenuItem.Text = "音声";
             // 
             // ChatBot
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btnChara);
             Controls.Add(CharaIcon);
-            Controls.Add(btnVoice);
             Controls.Add(cmbChatMode);
             Controls.Add(txtUserInput);
             Controls.Add(rtbChatLog);
@@ -192,10 +190,14 @@
             Controls.Add(btnSaveLog);
             Controls.Add(btnClear);
             Controls.Add(btnSend);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "ChatBot";
             Text = "ChatBot";
             Load += ChatBot_Load;
             ((System.ComponentModel.ISupportInitialize)CharaIcon).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -212,8 +214,10 @@
         private RichTextBox rtbChatLog;
         private TextBox txtUserInput;
         private ComboBox cmbChatMode;
-        private Button btnVoice;
         private PictureBox CharaIcon;
-        private Button btnChara;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem メニュToolStripMenuItem;
+        private ToolStripMenuItem イラストToolStripMenuItem;
+        private ToolStripMenuItem 音声ToolStripMenuItem;
     }
 }
